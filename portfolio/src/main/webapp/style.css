@@ -9,7 +9,6 @@ body, html {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    z-index: 1;
 }
 
 .centered {
@@ -20,9 +19,26 @@ body, html {
     background-color: rgba(25, 25, 25, 0.5);
     color: white;
     font-family: 'Roboto', sans-serif;
-    padding: 15px;
-    font-size: 40px;
+    padding: 1rem;
+    font-size: 4rem;
 }
+
+.material-icons.md-5 { 
+    font-size: 5rem;
+}
+
+.material-icons.md-light { 
+    color: rgba(255, 255, 255, 1); 
+}
+
+.scroll-down {
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Begin social bar styling */
 
 .social-bar {
     position: fixed;
@@ -41,6 +57,8 @@ body, html {
 }
 
 .socials {
-    height: 40px;
-    padding-left: 10px;
+    height: 3rem;
+    padding-left: 1rem;
 }
+
+/* End social bar styling */
