@@ -1,25 +1,46 @@
 body, html {
-  height: 100%;
-  margin: 0;
+    height: 100%;
+    margin: 0;
 }
 
 .bg {
-  background-image: url("/images/me.jpg");
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  z-index: 1;
+    background-image: url("/images/me.jpg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 1;
 }
 
 .centered {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(25, 25, 25, 0.5);
-  color: white;
-  font-family: 'Roboto', sans-serif;
-  padding: 15px;
-  font-size: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(25, 25, 25, 0.5);
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    padding: 15px;
+    font-size: 40px;
+}
+
+.social-bar {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.6;
+}
+
+.social-bar a {
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.social-bar a:hover {
+    opacity: 0.8;
+}
+
+.socials {
+    height: 40px;
+    padding-left: 10px;
 }
