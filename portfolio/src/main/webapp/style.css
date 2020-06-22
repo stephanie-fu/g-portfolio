@@ -4,11 +4,14 @@ body, html {
 }
 
 .bg {
-    background-image: url("/images/me.jpg");
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+#bg-home {
+    background-image: url("/images/me.jpg");
 }
 
 .centered {
