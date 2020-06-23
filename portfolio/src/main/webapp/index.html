@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Stephanie Fu's Portfolio</title>
-        <link rel="stylesheet" href="style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <script src="script.js"></script>
-    </head>
-    <body>
-        <!-- fixed social media bar -->
-        <div class="social-bar">
-            <a href="https://www.facebook.com/dash102102"><img src="/images/socials/facebook.png" class="socials"/></a>
-            <a href="https://www.twitter.com/xkungfu"><img src="/images/socials/twitter.png" class="socials"/></a>
-            <a href="https://www.instagram.com/stephanopolis11"><img src="/images/socials/instagram.png" class="socials"/></a>
-            <a href="https://www.linkedin.com/in/stephanie-fu"><img src="/images/socials/linkedin.png" class="socials"/></a>
-            <a href="https://www.github.com/dash102"><img src="/images/socials/github.png" class="socials"/></a>
-        </div>
+  <head>
+    <meta charset="UTF-8">
+    <title>Stephanie Fu's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <!-- fixed social media bar -->
+    <div class="social-bar">
+      <a href="https://www.facebook.com/dash102102"><img src="/images/socials/facebook.png" class="socials"/></a>
+      <a href="https://www.twitter.com/xkungfu"><img src="/images/socials/twitter.png" class="socials"/></a>
+      <a href="https://www.instagram.com/stephanopolis11"><img src="/images/socials/instagram.png" class="socials"/></a>
+      <a href="https://www.linkedin.com/in/stephanie-fu"><img src="/images/socials/linkedin.png" class="socials"/></a>
+      <a href="https://www.github.com/dash102"><img src="/images/socials/github.png" class="socials"/></a>
+    </div>
 
-        <div class="bg" id="bg-home">
-            <span class="centered">Hi! I'm Stephanie Fu.</span>
-            <div class="scroll-down">
-                <i class="material-icons md-5 md-light">keyboard_arrow_down</i>
-            </div>
+    <div class="bg" id="bg-home">
+      <span class="centered">Hi! I'm Stephanie Fu.</span>
+      <div class="scroll-down">
+        <i class="material-icons md-5 md-light">keyboard_arrow_down</i>
+      </div>
+    </div>
+    <div class="bg" id="bg-school">
+      <div class="school-div">
+        <span class="school-title">I'm a student at <a href="https://www.mit.edu" id="mit-a">MIT</a> double-majoring in computer science and music.</span>
+        <div class="tab">
+          <button class="tablinks active" onclick="openCourses(event, 'cs')">Relevant CS coursework</button>
+          <button class="tablinks" onclick="openCourses(event, 'music')">Relevant Music coursework</button>
+          <button class="tablinks" onclick="openCourses(event, 'research')">Research</button>
         </div>
         <div class="bg" id="bg-school">
             <div class="school-div">
@@ -65,5 +73,7 @@
                 </div>
             </div>
         </div>
-    </body>
+      </div>
+    </div>
+  </body>
 </html>
