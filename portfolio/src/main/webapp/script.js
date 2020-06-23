@@ -12,19 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/**
+ * Open tab corresponding to courseName
+ * @param {object} evt        Click event
+ * @param {String} courseName Tab ID to be opened
+ */
 function openCourses(evt, courseName) {
-    var i, tabcontent, tablinks;
+  let tabcontent, tablinks;
 
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (let i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
 
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (let i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
 
-    document.getElementById(courseName).style.display = "block";
-    evt.currentTarget.className += " active";
+  document.getElementById(courseName).style.display = "block";
+  evt.currentTarget.className += " active";
 }
