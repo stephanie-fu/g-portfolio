@@ -19,13 +19,33 @@
         </div>
 
         <div class="bg" id="bg-home">
-            <p class="centered">Hi! I'm Stephanie Fu.</p>
+            <span class="centered">Hi! I'm Stephanie Fu.</span>
             <div class="scroll-down">
                 <i class="material-icons md-5 md-light">keyboard_arrow_down</i>
             </div>
         </div>
-        <div class="bg">
-            <p>More information</p>
+        <div class="bg" id="bg-school">
+            <div class="school-div">
+                <span class="school-title">I'm a student at <a href="https://www.mit.edu" id="mit-a">MIT</a> double-majoring in computer science and music.</span>
+                <div class="tab">
+                    <button class="tablinks active" onclick="openCourses(event, 'cs')">Relevant CS coursework</button>
+                    <button class="tablinks" onclick="openCourses(event, 'music')">Relevant Music coursework</button>
+                    <button class="tablinks" onclick="openCourses(event, 'research')">Research</button>
+                </div>
+
+                <!-- Tab content -->
+                <div id="cs" class="tabcontent">
+                    <p>CS coursework placeholder</p>
+                </div>
+
+                <div id="music" class="tabcontent">
+                    <p>Music coursework placeholder</p>
+                </div>
+
+                <div id="research" class="tabcontent">
+                    <p>Research placeholder</p>
+                </div>
+            </div>
         </div>
     </body>
 </html>

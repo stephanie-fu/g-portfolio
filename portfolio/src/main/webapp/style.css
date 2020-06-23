@@ -1,6 +1,7 @@
 body, html {
     height: 100%;
     margin: 0;
+    font-family: 'Roboto', sans-serif;
 }
 
 .bg {
@@ -14,16 +15,8 @@ body, html {
     background-image: url("/images/me.jpg");
 }
 
-.centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(25, 25, 25, 0.5);
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    padding: 1rem;
-    font-size: 4rem;
+#bg-school {
+    background-image: url("/images/bg-rock-blur.jpg");
 }
 
 .material-icons.md-5 { 
@@ -34,11 +27,44 @@ body, html {
     color: rgba(255, 255, 255, 1); 
 }
 
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(25, 25, 25, 0.5);
+    color: white;
+    padding: 1rem;
+    font-size: 4rem;
+}
+
+.school-title {
+    display: block;
+    text-align: center;
+    color: white;
+    padding-top: 4rem;
+    font-size: 4rem;
+}
+
+#music, #research {
+    display: none;
+}
+
+.school-div {
+    width: 75vw;
+    margin: auto;
+}
+
 .scroll-down {
     position: absolute;
     bottom: 0%;
     left: 50%;
     transform: translateX(-50%);
+}
+
+#mit-a {
+    text-decoration: none;
+    color: rgb(209,193,174);
 }
 
 /* Begin social bar styling */
@@ -65,3 +91,38 @@ body, html {
 }
 
 /* End social bar styling */
+
+/* Begin coursework styling */
+
+.tab {
+    overflow: hidden;
+    background-color: #f1f1f1;
+    margin-top: 4rem;
+}
+
+.tab button {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+.tab button:hover {
+    background-color: #ddd;
+}
+
+.tab button.active {
+    background-color: #ccc;
+    font-weight: bold;
+}
+
+.tabcontent {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    color: white;
+}
+
+/* End coursework styling */
