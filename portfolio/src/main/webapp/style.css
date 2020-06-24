@@ -19,6 +19,10 @@ body, html {
   background-image: url("/images/bg-rock-blur.jpg");
 }
 
+#bg-work {
+  background-image: url("/images/bg-water-blur.jpg");
+}
+
 .material-icons.md-5 { 
   font-size: 5rem;
 }
@@ -38,19 +42,22 @@ body, html {
   font-size: 4rem;
 }
 
-.school-title {
+.title {
   display: block;
   text-align: center;
-  color: white;
   padding-top: 4rem;
   font-size: 3.5rem;
+}
+
+.title.school {
+  color: white;
 }
 
 #music, #research {
   display: none;
 }
 
-.school-div {
+.page-div {
   width: 75vw;
   margin: auto;
   padding-bottom: 4rem;
@@ -66,6 +73,10 @@ body, html {
 #school-page-a {
   text-decoration: none;
   color: rgb(209,193,174);
+}
+
+.title.work {
+  color: black;
 }
 
 /* Begin social bar styling */
