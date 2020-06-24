@@ -43,7 +43,7 @@ body, html {
   text-align: center;
   color: white;
   padding-top: 4rem;
-  font-size: 4rem;
+  font-size: 3.5rem;
 }
 
 #music, #research {
@@ -63,7 +63,7 @@ body, html {
   transform: translateX(-50%);
 }
 
-#mit-a {
+#school-page-a {
   text-decoration: none;
   color: rgb(209,193,174);
 }
