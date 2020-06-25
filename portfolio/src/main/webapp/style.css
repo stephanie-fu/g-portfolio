@@ -118,6 +118,15 @@ td p {
   color: white;
 }
 
+.hobbies-page-a {
+  color: rgb(250,220,220);
+  text-decoration: none;
+}
+
+.hobbies-description {
+  padding: 3rem 4rem 3rem 1rem;
+}
+
 /* Begin social bar styling */
 
 .social-bar {
