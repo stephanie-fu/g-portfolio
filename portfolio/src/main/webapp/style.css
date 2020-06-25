@@ -32,7 +32,7 @@ body, html {
 }
 
 .material-icons.md-8 { 
-  font-size: 8rem;
+  font-size: 2rem;
 }
 
 .material-icons.md-light { 
@@ -125,6 +125,18 @@ td p {
 
 .hobbies-description {
   padding: 3rem 4rem 3rem 1rem;
+}
+
+.hobbies-imgs tr td img {
+  height: 8rem;
+}
+
+.hobbies-image {
+  margin: .5rem;
+}
+
+.hobbies-description td {
+  vertical-align: top;
 }
 
 /* Begin social bar styling */
