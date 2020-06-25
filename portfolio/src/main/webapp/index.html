@@ -2,17 +2,70 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <title>Stephanie Fu's Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="script.js"></script>
   </head>
   <body>
-    <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+    <!-- fixed social media bar -->
+    <div class="social-bar">
+      <a href="https://www.facebook.com/dash102102"><img src="/images/socials/facebook.png" class="socials"/></a>
+      <a href="https://www.twitter.com/xkungfu"><img src="/images/socials/twitter.png" class="socials"/></a>
+      <a href="https://www.instagram.com/stephanopolis11"><img src="/images/socials/instagram.png" class="socials"/></a>
+      <a href="https://www.linkedin.com/in/stephanie-fu"><img src="/images/socials/linkedin.png" class="socials"/></a>
+      <a href="https://www.github.com/dash102"><img src="/images/socials/github.png" class="socials"/></a>
+    </div>
+
+    <div class="bg" id="bg-home">
+      <span class="centered">Hi! I'm Stephanie Fu.</span>
+      <div class="scroll-down">
+        <i class="material-icons md-5 md-light">keyboard_arrow_down</i>
+      </div>
+    </div>
+    <div class="bg" id="bg-school">
+      <div class="school-div">
+        <span class="school-title">Originally from <a href="https://en.wikipedia.org/wiki/Manhattan,_Kansas" id="school-page-a">Manhattan, KS</a>, 
+                                   I'm a student at <a href="https://www.mit.edu" id="school-page-a">MIT</a> double-majoring in 
+                                   computer science and music.</span>
+        <div class="tab">
+          <button class="tablinks active" onclick="openCourses(event, 'cs')">Relevant CS coursework</button>
+          <button class="tablinks" onclick="openCourses(event, 'music')">Relevant Music coursework</button>
+          <button class="tablinks" onclick="openCourses(event, 'research')">Research</button>
+        </div>
+
+        <!-- Tab content -->
+        <div id="cs" class="tabcontent">
+          <p>Design and Analysis of Algorithms</p>
+          <p>Software Systems for Data Science</p>
+          <p>Artificial Intelligence</p>
+          <p>Fundamentals of Programming</p>
+          <p>Introduction to Machine Learning</p>
+          <p>Introduction to Algorithms</p>
+          <p>Oral Communication (for CS majors)</p>
+          <p>Optimization Methods in Business Analytics</p>
+          <p>Differential Equations (Recitation Instructor)</p>
+          <p>Multivariable Calculus<p>
+        </div>
+
+        <div id="music" class="tabcontent">
+          <p>MIT Symphony Orchestra</p>
+          <p>Harmony and Counterpoint I</p>
+          <p>Moments in Music: Ragtime Composition</p>
+          <p>Introduction to World Music</p>
+        </div>
+
+        <div id="research" class="tabcontent">
+          <h5>MIT CSAIL - Vision Group Researcher</h5>
+          <p>Diagnosed mode collapse of GANs and investigated potential repairs</p>
+          <p>Implemented model rational methods, including SHAP, LIME, and similarity-based saliency maps, to calculate similarity deltas for Conditional KNN BallTree decisions</p>
+          <br>
+          <h5>MIT RLE - Researcher</h5>
+          <p>Collaborated on a digital fibers project to build smart clothing for biomedical usage</p>
+          <p>Designed convolutional neural networks to recognize various forms of human activity based on digital fiber data with 97% accuracy</p>
+        </div>
+      </div>
     </div>
   </body>
 </html>
