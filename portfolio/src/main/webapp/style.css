@@ -31,6 +31,10 @@ body, html {
   font-size: 5rem;
 }
 
+.material-icons.md-8 { 
+  font-size: 8rem;
+}
+
 .material-icons.md-light { 
   color: rgba(255, 255, 255, 1); 
 }
@@ -112,10 +116,6 @@ td p {
 
 #hobbies-div {
   color: white;
-}
-
-.hobbies-logo {
-  height: 8rem;
 }
 
 /* Begin social bar styling */
