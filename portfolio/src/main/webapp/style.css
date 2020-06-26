@@ -78,7 +78,7 @@ body, html {
   transform: translateX(-50%);
 }
 
-.school-page-a {
+.school-links {
   text-decoration: none;
   color: rgb(209,193,174);
 }
@@ -109,7 +109,7 @@ td p {
   height: 8rem;
 }
 
-.work-page-a {
+.work-links {
   text-decoration: none;
   color: rgb(61,95,121);
 }
@@ -118,7 +118,7 @@ td p {
   color: white;
 }
 
-.hobbies-page-a {
+.hobbies-links {
   color: rgb(250,220,220);
   text-decoration: none;
 }
