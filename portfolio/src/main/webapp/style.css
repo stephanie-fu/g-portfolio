@@ -23,8 +23,16 @@ body, html {
   background-image: url("/images/bg-water-blur.jpg");
 }
 
+#bg-hobbies {
+  background-image: url("/images/bg-shirt-blur.jpg");
+}
+
 .material-icons.md-5 { 
   font-size: 5rem;
+}
+
+.material-icons.md-8 { 
+  font-size: 2rem;
 }
 
 .material-icons.md-light { 
@@ -70,7 +78,7 @@ body, html {
   transform: translateX(-50%);
 }
 
-.school-page-a {
+.school-links {
   text-decoration: none;
   color: rgb(209,193,174);
 }
@@ -101,9 +109,30 @@ td p {
   height: 8rem;
 }
 
-.work-page-a {
+.work-links {
   text-decoration: none;
   color: rgb(61,95,121);
+}
+
+#hobbies-div {
+  color: white;
+}
+
+.hobbies-links {
+  color: rgb(250,220,220);
+  text-decoration: none;
+}
+
+.hobbies-description {
+  padding: 3rem 4rem 3rem 1rem;
+}
+
+.hobbies-imgs tr td img {
+  height: 8rem;
+}
+
+.hobbies-description td {
+  vertical-align: top;
 }
 
 /* Begin social bar styling */
