@@ -33,3 +33,14 @@ function openCourses(evt, courseName) {
   document.getElementById(courseName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+/**
+ * Fetch a greeting
+ */
+function getGreeting() {
+  fetch('/data').then(response => response.text()).then((greeting) => {
+    let greetingContainer = document.getElementById('greeting-container');
+    greetingContainer.style.display = "block";
+    greetingContainer.innerHTML = greeting;
+  });
+}
