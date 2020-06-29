@@ -35,7 +35,7 @@ function openCourses(evt, courseName) {
 }
 
 /**
- * Fetch a greeting
+ * Fetches a greeting
  */
 function getGreeting() {
   fetch('/data').then(response => response.text()).then((greeting) => {
