@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * Open tab corresponding to courseName
+ * Opens tab corresponding to courseName
  * @param {object} evt        Click event
  * @param {String} courseName Tab ID to be opened
  */
