@@ -38,9 +38,22 @@ function openCourses(evt, courseName) {
  * Fetches a greeting
  */
 function getGreeting() {
-  fetch('/data').then(response => response.text()).then((greeting) => {
+  fetch('/data').then(response => response.json()).then((greeting) => {
+    console.log(typeof greeting);
+    console.log(greeting);
     let greetingContainer = document.getElementById('greeting-container');
     greetingContainer.style.display = "block";
-    greetingContainer.innerHTML = greeting;
+    greetingContainer.innerHTML = '';
+    for (let i = 0; i < greeting.length; i++) {
+      greetingContainer.appendChild(
+        createListElement(greeting[i]));
+    }
   });
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }
