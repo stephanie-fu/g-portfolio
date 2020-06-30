@@ -12,6 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+window.onload = function onLoad() {
+  getGreeting();
+}
+
 /**
  * Opens tab corresponding to courseName.
  * @param {object} evt        Click event
@@ -35,16 +39,20 @@ function openCourses(evt, courseName) {
 }
 
 /**
+ * Makes comments form visible.
+ */
+function showCommentsForm() {
+  document.getElementById('greeting-container').style.display = "block";
+}
+
+/**
  * Fetches a greeting.
  */
 function getGreeting() {
   fetch('/data').then(response => response.json()).then((greeting) => {
-    let greetingContainer = document.getElementById('greeting-container');
-    greetingContainer.style.display = "block";
-    greetingContainer.innerHTML = '';
+    let greetingContainer = document.getElementById('comments-container');
     for (let i = 0; i < greeting.length; i++) {
-      greetingContainer.appendChild(
-        createListElement(greeting[i]));
+      greetingContainer.appendChild(createListElement(greeting[i]));
     }
   });
 }

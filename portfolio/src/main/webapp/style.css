@@ -10,6 +10,11 @@ body, html {
   background-size: cover;
 }
 
+#comments-container {
+  background-color: #eee;
+  padding: 1rem;
+}
+
 #greeting-div {
   bottom: 0;
   left: 0;
