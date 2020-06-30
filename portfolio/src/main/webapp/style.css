@@ -10,6 +10,34 @@ body, html {
   background-size: cover;
 }
 
+#greeting-div {
+  bottom: 0;
+  left: 0;
+  margin: 1rem;
+  position: fixed;
+}
+
+#greeting-button {
+  background-color: #eee;
+  padding: 1rem;
+}
+
+#greeting-button:focus {
+  outline: none;
+}
+
+#greeting-button:hover {
+  background-color: #f8f8f8;
+  transition: 0.3s;
+}
+
+#greeting-container {
+  background-color: #f8f8f8;
+  display: none;
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
 #bg-home {
   background-image: url("/images/me.jpg");
   height: 100%;
