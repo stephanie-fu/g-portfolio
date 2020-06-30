@@ -15,28 +15,28 @@ body, html {
   padding: 1rem;
 }
 
-#greeting-div {
+#comments-div {
   bottom: 0;
   left: 0;
   margin: 1rem;
   position: fixed;
 }
 
-#greeting-button {
+#comments-button {
   background-color: #eee;
   padding: 1rem;
 }
 
-#greeting-button:focus {
+#comments-button:focus {
   outline: none;
 }
 
-#greeting-button:hover {
+#comments-button:hover {
   background-color: #f8f8f8;
   transition: 0.3s;
 }
 
-#greeting-container {
+#comments-form {
   background-color: #f8f8f8;
   display: none;
   margin: 1rem 0;

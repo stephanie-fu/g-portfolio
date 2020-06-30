@@ -13,7 +13,7 @@
 // limitations under the License.
 
 window.onload = function onLoad() {
-  getGreeting();
+  getComments();
 }
 
 /**
@@ -42,17 +42,17 @@ function openCourses(evt, courseName) {
  * Makes comments form visible.
  */
 function showCommentsForm() {
-  document.getElementById('greeting-container').style.display = "block";
+  document.getElementById('comments-form').style.display = "block";
 }
 
 /**
- * Fetches a greeting.
+ * Fetches a list of comments and displays them on the UI.
  */
-function getGreeting() {
-  fetch('/data').then(response => response.json()).then((greeting) => {
-    let greetingContainer = document.getElementById('comments-container');
-    for (let i = 0; i < greeting.length; i++) {
-      greetingContainer.appendChild(createListElement(greeting[i]));
+function getComments() {
+  fetch('/data').then(response => response.json()).then((comments) => {
+    let commentsContainer = document.getElementById('comments-container');
+    for (let i = 0; i < comments.length; i++) {
+      commentsContainer.appendChild(createListElement(comments[i]));
     }
   });
 }

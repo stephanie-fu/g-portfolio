@@ -27,12 +27,12 @@ import java.util.List;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private List<String> greetings = new ArrayList<>();
+  private List<String> comments = new ArrayList<>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
-    response.getWriter().println(convertToJson(greetings));
+    response.getWriter().println(convertToJson(comments));
   }
 
   @Override
@@ -42,7 +42,7 @@ public class DataServlet extends HttpServlet {
     String comment = getParameter(request, "comment", "");
 
     // Respond with a refresh and update running comment list.
-    greetings.add(name + " says: " + comment);
+    comments.add(name + " says: " + comment);
     response.sendRedirect("/index.html");
   }
 
@@ -59,7 +59,7 @@ public class DataServlet extends HttpServlet {
    */
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
-    if (value == null) {
+    if (value.isEmpty()) {
       return defaultValue;
     }
     return value;
