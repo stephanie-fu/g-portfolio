@@ -42,16 +42,14 @@ function openCourses(evt, courseName) {
 /**
  * Makes comments form visible.
  */
-function
-showCommentsForm() {
+function showCommentsForm() {
   document.getElementById('comments-form').style.display = 'block';
 }
 
 /**
  * Fetches a list of comments and displays them on the UI.
  */
-function
-getComments() {
+function getComments() {
   fetch('/data').then(response => response.json()).then((comments) => {
     let commentsContainer = document.getElementById('comments-container');
     for (let i = 0; i < comments.length; i++) {
