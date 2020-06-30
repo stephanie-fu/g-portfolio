@@ -1,0 +1,26 @@
+{
+  "jsxBracketSameLine": true,
+  "tabWidth": 2,
+  "useTabs": false,
+  "overrides": [
+    {
+      "files": ["*.html"],
+      "options": {
+        "printWidth": 120,
+        "singleQuote": false
+      }
+    },
+    {
+      "files": ["*.css"],
+      "options": {
+        "singleQuote": true
+      }
+    },
+    {
+      "files": ["*.js"],
+      "options": {
+        "singleQuote": true
+      }
+    }
+  ]
+}
