@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * Opens tab corresponding to courseName
+ * Opens tab corresponding to courseName.
  * @param {object} evt        Click event
  * @param {String} courseName Tab ID to be opened
  */
@@ -35,12 +35,10 @@ function openCourses(evt, courseName) {
 }
 
 /**
- * Fetches a greeting
+ * Fetches a greeting.
  */
 function getGreeting() {
   fetch('/data').then(response => response.json()).then((greeting) => {
-    console.log(typeof greeting);
-    console.log(greeting);
     let greetingContainer = document.getElementById('greeting-container');
     greetingContainer.style.display = "block";
     greetingContainer.innerHTML = '';
@@ -51,7 +49,9 @@ function getGreeting() {
   });
 }
 
-/** Creates an <li> element containing text. */
+/** 
+ * Creates an <li> element containing text.
+ */
 function createListElement(text) {
   const liElement = document.createElement('li');
   liElement.innerText = text;

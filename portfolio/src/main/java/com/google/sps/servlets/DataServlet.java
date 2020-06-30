@@ -14,12 +14,10 @@
 
 package com.google.sps.servlets;
 
+import com.google.common.collect.ImmutableList; 
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,22 +28,18 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private List<String> greetings = new ArrayList<>(Arrays.asList("Bonjour!", "Hello!", "Ni hao!"));
+  private static final ImmutableList<String> greetings = ImmutableList.of("Bonjour!", "Hello!", "Ni hao!");
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String greetingsJSON = convertToJson(greetings);
     response.setContentType("application/json;");
-    response.getWriter().println(greetingsJSON);
+    response.getWriter().println(convertToJson(greetings));
   }
 
   /**
-   * Converts a DataServlet instance into a JSON string using the Gson library. Note: We first added
-   * the Gson library dependency to pom.xml.
+   * Converts a DataServlet instance into a JSON string using the Gson library.
    */
-  private String convertToJson(List<String> data) {
-    Gson gson = new Gson();
-    String json = gson.toJson(data);
-    return json;
+  private String convertToJson(ImmutableList<String> data) {
+    return new Gson().toJson(data);
   }
 }
