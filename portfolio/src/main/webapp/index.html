@@ -1,21 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Stephanie Fu's Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <script src="script.js"></script>
   </head>
   <body>
     <!-- fixed social media bar -->
     <div class="social-bar">
-      <a href="https://www.facebook.com/dash102102"><img src="/images/socials/facebook.png" class="socials"/></a>
-      <a href="https://www.twitter.com/xkungfu"><img src="/images/socials/twitter.png" class="socials"/></a>
-      <a href="https://www.instagram.com/stephanopolis11"><img src="/images/socials/instagram.png" class="socials"/></a>
-      <a href="https://www.linkedin.com/in/stephanie-fu"><img src="/images/socials/linkedin.png" class="socials"/></a>
-      <a href="https://www.github.com/dash102"><img src="/images/socials/github.png" class="socials"/></a>
+      <a href="https://www.facebook.com/dash102102">
+        <img src="/images/socials/facebook.png" class="socials" />
+      </a>
+      <a href="https://www.twitter.com/xkungfu">
+        <img src="/images/socials/twitter.png" class="socials" />
+      </a>
+      <a href="https://www.instagram.com/stephanopolis11">
+        <img src="/images/socials/instagram.png" class="socials" />
+      </a>
+      <a href="https://www.linkedin.com/in/stephanie-fu">
+        <img src="/images/socials/linkedin.png" class="socials" />
+      </a>
+      <a href="https://www.github.com/dash102">
+        <img src="/images/socials/github.png" class="socials" />
+      </a>
     </div>
 
     <div id="comments-div">
@@ -25,15 +41,14 @@
       <div id="comments-form">
         <form action="/data" method="POST">
           <label for="name">Name: </label>
-          <input type="text" name="name"><br/>
+          <input type="text" name="name" /><br>
           <label for="comment">Comment: </label>
-          <input type="text" name="comment"><br/>
-          <br/><br/>
+          <input type="text" name="comment" /><br>
+          <br><br>
           <input type="submit" />
         </form>
       </div>
-      <div id="comments-container">
-      </div>
+      <div id="comments-container"></div>
     </div>
 
     <div class="bg" id="bg-home">
@@ -44,13 +59,26 @@
     </div>
     <div class="bg" id="bg-school">
       <div class="page-div">
-        <span class="title school">Originally from <a href="https://en.wikipedia.org/wiki/Manhattan,_Kansas" class="school-links">Manhattan, KS</a>, 
-                                   I'm a student at <a href="https://www.mit.edu" class="school-links">MIT</a> double-majoring in 
-                                   computer science and music.</span>
+        <span class="title school">
+          Originally from
+          <a href="https://en.wikipedia.org/wiki/Manhattan,_Kansas"
+             class="school-links">
+             Manhattan, KS
+          </a>
+          , I'm a student at
+          <a href="https://www.mit.edu" class="school-links">MIT</a>
+          double-majoring in computer science and music.
+        </span>
         <div class="tab">
-          <button class="tablinks active" onclick="openCourses(event, 'cs')">Relevant CS coursework</button>
-          <button class="tablinks" onclick="openCourses(event, 'music')">Relevant Music coursework</button>
-          <button class="tablinks" onclick="openCourses(event, 'research')">Research</button>
+          <button class="tablinks active" onclick="openCourses(event, 'cs')">
+            Relevant CS coursework
+          </button>
+          <button class="tablinks" onclick="openCourses(event, 'music')">
+            Relevant Music coursework
+          </button>
+          <button class="tablinks" onclick="openCourses(event, 'research')">
+            Research
+          </button>
         </div>
 
         <!-- Tab content -->
@@ -64,7 +92,8 @@
           <p>Oral Communication (for CS majors)</p>
           <p>Optimization Methods in Business Analytics</p>
           <p>Differential Equations (Recitation Instructor)</p>
-          <p>Multivariable Calculus<p>
+          <p>Multivariable Calculus</p>
+          <p></p>
         </div>
 
         <div id="music" class="tabcontent">
@@ -76,22 +105,37 @@
 
         <div id="research" class="tabcontent">
           <h5>MIT CSAIL - Vision Group Researcher</h5>
-          <p>Diagnosed mode collapse of GANs and investigated potential repairs</p>
-          <p>Implemented model rational methods, including SHAP, LIME, and similarity-based saliency maps, to calculate similarity deltas for Conditional KNN BallTree decisions</p>
+          <p>
+            Diagnosed mode collapse of GANs and investigated potential repairs
+          </p>
+          <p>
+            Implemented model rational methods, including SHAP, LIME, and
+            similarity-based saliency maps, to calculate similarity deltas for
+            Conditional KNN BallTree decisions
+          </p>
           <br>
           <h5>MIT RLE - Researcher</h5>
-          <p>Collaborated on a digital fibers project to build smart clothing for biomedical usage</p>
-          <p>Designed convolutional neural networks to recognize various forms of human activity based on digital fiber data with 97% accuracy</p>
+          <p>
+            Collaborated on a digital fibers project to build smart clothing for
+            biomedical usage
+          </p>
+          <p>
+            Designed convolutional neural networks to recognize various forms of
+            human activity based on digital fiber data with 97% accuracy
+          </p>
         </div>
       </div>
     </div>
     <div class="bg" id="bg-work">
       <div class="page-div">
-        <span class="title work">Over the past 4 years, I've been able to intern at some great places and learn from lots of talented people.</span>
+        <span class="title work">
+          Over the past 4 years, I've been able to intern at some great places
+          and learn from lots of talented people.
+        </span>
         <table>
           <tr>
             <td class="work-logo">
-              <img src="/images/work/google.png" class="work-logo"/>
+              <img src="/images/work/google.png" class="work-logo" />
             </td>
             <td class="work-description">
               <span>Google</span>
@@ -99,42 +143,76 @@
               <hr>
             </td>
             <td class="work-logo">
-              <img src="/images/work/microsoft.png" class="work-logo"/>
+              <img src="/images/work/microsoft.png" class="work-logo" />
             </td>
             <td class="work-description">
               <span>Microsoft</span>
               <p>Software Extern (January 2020)</p>
               <hr>
-              <p>- Collaborated with the <a href="https://www.metmuseum.org/" class="work-links">Metropolitan Museum of Art</a> and 
-                   <a href="https://www.rijksmuseum.nl/en" class="work-links">Rijksmuseum</a> to digitize art exploration</p>
-              <p>- Featurized, processed, joined, and translated open-access datasets for Conditional KNN BallTree models</p>
-              <p>- Researched and implemented deep model rationale with SHAP to explain model’s art pairings</p>
+              <p>
+                - Collaborated with the
+                <a href="https://www.metmuseum.org/" class="work-links">
+                  Metropolitan Museum of Art
+                </a>
+                and
+                <a href="https://www.rijksmuseum.nl/en" class="work-links">
+                  Rijksmuseum
+                </a>
+                to digitize art exploration
+              </p>
+              <p>
+                - Featurized, processed, joined, and translated open-access
+                datasets for Conditional KNN BallTree models
+              </p>
+              <p>
+                - Researched and implemented deep model rationale with SHAP to
+                explain model’s art pairings
+              </p>
             </td>
           </tr>
           <tr>
             <td class="work-logo">
-              <img src="/images/work/dtci.png" class="work-logo"/>
+              <img src="/images/work/dtci.png" class="work-logo" />
             </td>
             <td class="work-description">
               <span>Disney</span>
-              <p>Data Science Intern (June 2019 - August 2019)<p/>
+              <p>Data Science Intern (June 2019 - August 2019)</p>
+              <p />
               <hr>
-              <p>- Designed and led initiative to keyword and serve personalized ESPN.com thumbnails</p>
-              <p>- Implemented residual networks to classify and image's thumbnail potential</p>
-              <p>- Integrated with a multi-armed bandit model to actively converge on user thumbnail interests</p>
+              <p>
+                - Designed and led initiative to keyword and serve personalized
+                ESPN.com thumbnails
+              </p>
+              <p>
+                - Implemented residual networks to classify and image's
+                thumbnail potential
+              </p>
+              <p>
+                - Integrated with a multi-armed bandit model to actively
+                converge on user thumbnail interests
+              </p>
               <p>&emsp;- Trained on AWS SageMaker to achieve >90% accuracy</p>
-              <p>- Pitched final product and business impact to vice presidents and senior managers</p>
+              <p>
+                - Pitched final product and business impact to vice presidents
+                and senior managers
+              </p>
               <p>&emsp;- Won 1st place out of 19 teams</p>
             </td>
             <td class="work-logo">
-              <img src="/images/work/thunderhead.png" class="work-logo"/>
+              <img src="/images/work/thunderhead.png" class="work-logo" />
             </td>
             <td class="work-description">
               <span>Thunderhead Engineering</span>
               <p>Software Intern (June 2017 | June 2018 - August 2018)</p>
               <hr>
-              <p>- Improved pathfinding logic in evacuation simulations by refining egress decisions</p>
-              <p>- Implemented features including a detailed summary report provided to users after running a simulation</p>
+              <p>
+                - Improved pathfinding logic in evacuation simulations by
+                refining egress decisions
+              </p>
+              <p>
+                - Implemented features including a detailed summary report
+                provided to users after running a simulation
+              </p>
             </td>
           </tr>
         </table>
@@ -142,90 +220,162 @@
     </div>
     <div class="bg" id="bg-hobbies">
       <div class="page-div" id="hobbies-div">
-        <span class="title">I spend a lot of my free time discovering and enjoying hobbies!</span>
+        <span class="title">
+          I spend a lot of my free time discovering and enjoying hobbies!
+        </span>
         <table>
           <tr>
             <td class="hobbies-description">
-              <span><span class="material-icons md-8">code</span> Going to Hackathons</span>
+              <span>
+                <span class="material-icons md-8">code</span> 
+                Going to Hackathons
+              </span>
               <hr>
-              <p>Participating in hackathons is one of the only activities that make staying up for 24-48 hours fun :D <br>
-                I've been able to go to 7 hackathons (and organize one!) in the past 5 years, and some of the teams I've been a part of have also won
-                some pretty neat prizes. Check out my <a href="https://www.github.com/dash102" class="hobbies-links">GitHub</a> and 
-                <a href="https://devpost.com/dash102" class="hobbies-links">Devpost</a>!
+              <p>
+                Participating in hackathons is one of the only activities that
+                make staying up for 24-48 hours fun :D <br>
+                I've been able to go to 7 hackathons (and organize one!) in the
+                past 5 years, and some of the teams I've been a part of have
+                also won some pretty neat prizes. Check out my
+                <a href="https://www.github.com/dash102" class="hobbies-links">
+                  GitHub
+                </a>
+                and
+                <a href="https://devpost.com/dash102" class="hobbies-links">
+                  Devpost
+                </a>
+                !
               </p>
             </td>
             <td class="hobbies-description">
-              <span><span class="material-icons md-8">music_note</span> Music</span>
+              <span>
+                <span class="material-icons md-8">music_note</span> Music</span>
               <hr>
-              <p>One of my favorite things to do for the past 15 years has been to play the violin! I love to play music from all kinds of genres,
-                 and am now learning about music theory and composition. The first piece I ever composed is a rag, titled Cottonwood Rag. Listen to 
-                 a recording of it <a href="https://drive.google.com/file/d/1a-iQ6XsygdcWzGex_bwE80KEP_aVA1AM/view?usp=sharing" class="hobbies-links">here</a>!
+              <p>
+                One of my favorite things to do for the past 15 years has been
+                to play the violin! I love to play music from all kinds of
+                genres, and am now learning about music theory and composition.
+                The first piece I ever composed is a rag, titled Cottonwood Rag.
+                Listen to a recording of it
+                <a
+                  href="https://drive.google.com/file/d/1a-iQ6XsygdcWzGex_bwE80KEP_aVA1AM/view?usp=sharing"
+                  class="hobbies-links">
+                  here
+                </a>
+                !
               </p>
             </td>
           </tr>
           <tr>
             <td class="hobbies-description">
-              <span><span class="material-icons md-8">photo_camera</span> Photography</span>
+              <span>
+                <span class="material-icons md-8">photo_camera</span>
+                  Photography
+                </span>
               <hr>
-              <p>I've recently been learning to use a DSLR to upgrade my phone camera skills. With quarantine in place, most of my photos 
-                 have been of food (see Cooking) and flowers.
+              <p>
+                I've recently been learning to use a DSLR to upgrade my phone
+                camera skills. With quarantine in place, most of my photos have
+                been of food (see Cooking) and flowers.
               </p>
               <table class="hobbies-imgs">
                 <tr>
                   <td>
-                    <img src="/images/hobbies/photos/photo1.jpg" alt="white flower" />
+                    <img
+                      src="/images/hobbies/photos/photo1.jpg"
+                      alt="white flower"
+                    />
                   </td>
                   <td>
-                    <img src="/images/hobbies/photos/photo2.jpg" alt="yellow flower" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="/images/hobbies/photos/photo3.jpg" alt="pizza-making" />
-                  </td>
-                  <td>
-                    <img src="/images/hobbies/photos/photo4.jpg" alt="charles river" />
+                    <img
+                      src="/images/hobbies/photos/photo2.jpg"
+                      alt="yellow flower"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <img src="/images/hobbies/photos/photo5.jpg" alt="dorm-flowers" />
+                    <img
+                      src="/images/hobbies/photos/photo3.jpg"
+                      alt="pizza-making"
+                    />
                   </td>
                   <td>
-                    <img src="/images/hobbies/photos/photo6.jpg" alt="campus-sunset" />
+                    <img
+                      src="/images/hobbies/photos/photo4.jpg"
+                      alt="charles river"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <img
+                      src="/images/hobbies/photos/photo5.jpg"
+                      alt="dorm-flowers"
+                    />
+                  </td>
+                  <td>
+                    <img
+                      src="/images/hobbies/photos/photo6.jpg"
+                      alt="campus-sunset"
+                    />
                   </td>
                 </tr>
               </table>
             </td>
             <td class="hobbies-description">
-              <span><span class="material-icons md-8">restaurant</span> Cooking</span>
+              <span>
+                <span class="material-icons md-8">restaurant</span>
+                  Cooking
+                </span>
               <hr>
-              <p>Being in college has made me miss home-cooked Chinese food, so I decided to learn to make some of my favorite 
-                recipes. After lots of experimentation (and a few close calls), I've finally nailed down a couple of dishes:
+              <p>
+                Being in college has made me miss home-cooked Chinese food, so I
+                decided to learn to make some of my favorite recipes. After lots
+                of experimentation (and a few close calls), I've finally nailed
+                down a couple of dishes:
               </p>
               <table class="hobbies-imgs">
                 <tr>
                   <td>
-                    <img src="/images/hobbies/food/food1.jpg" alt="potstickers with shepherd's purse" />
+                    <img
+                      src="/images/hobbies/food/food1.jpg"
+                      alt="potstickers with shepherd's purse"
+                    />
                   </td>
                   <td>
-                    <img src="/images/hobbies/food/food2.jpg" alt="bowls of noodles" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="/images/hobbies/food/food3.jpg" alt="fettuccine with mushrooms and basil" />
-                  </td>
-                  <td>
-                    <img src="/images/hobbies/food/food4.jpg" alt="lemon and raspberry macaron" />
+                    <img
+                      src="/images/hobbies/food/food2.jpg"
+                      alt="bowls of noodles"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <img src="/images/hobbies/food/food5.jpg" alt="chive boxes" />
+                    <img
+                      src="/images/hobbies/food/food3.jpg"
+                      alt="fettuccine with mushrooms and basil"
+                    />
                   </td>
                   <td>
-                    <img src="/images/hobbies/food/food6.jpg" alt="sweat bean noodles" />
+                    <img
+                      src="/images/hobbies/food/food4.jpg"
+                      alt="lemon and raspberry macaron"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <img
+                      src="/images/hobbies/food/food5.jpg"
+                      alt="chive boxes"
+                    />
+                  </td>
+                  <td>
+                    <img
+                      src="/images/hobbies/food/food6.jpg"
+                      alt="sweat bean noodles"
+                    />
                   </td>
                 </tr>
               </table>
