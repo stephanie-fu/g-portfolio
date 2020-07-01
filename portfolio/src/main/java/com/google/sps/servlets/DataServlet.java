@@ -71,24 +71,14 @@ public class DataServlet extends HttpServlet {
     return getCommentStatement(name, comment, timestamp);
   }
 
-  /**
-   * Converts a DataServlet instance into a JSON string using the Gson library.
-   */
   private static String convertToJson(List<String> data) {
     return new Gson().toJson(data);
   }
 
-  /**
-   * @return the desired comment format to display
-   */
   private static String getCommentStatement(String name, String comment, long timestamp) {
     return String.format("at %d, %s said: %s", timestamp, name, comment);
   }
 
-  /**
-   * @return the request parameter, or the default value if the parameter
-   *         was not specified by the client
-   */
   private static String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
     if (value.isEmpty()) {
@@ -97,9 +87,6 @@ public class DataServlet extends HttpServlet {
     return value;
   }
 
-  /**
-   * Stores user comments in a form of persistent storage.
-   */
   private static void storeComments(String name, String comment, long timestamp) {
     Entity taskEntity = new Entity(ENTITY_KIND);
     taskEntity.setProperty(ENTITY_NAME_HEADER, name);
