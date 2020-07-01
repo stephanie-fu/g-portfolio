@@ -1,5 +1,6 @@
-body, html {
-  font-family: 'Roboto', sans-serif;
+body,
+html {
+  font-family: "Roboto", sans-serif;
   height: 100%;
   margin: 0;
 }
@@ -10,28 +11,33 @@ body, html {
   background-size: cover;
 }
 
-#greeting-div {
+#comments-container {
+  background-color: #eee;
+  padding: 1rem;
+}
+
+#comments-div {
   bottom: 0;
   left: 0;
   margin: 1rem;
   position: fixed;
 }
 
-#greeting-button {
+#comments-button {
   background-color: #eee;
   padding: 1rem;
 }
 
-#greeting-button:focus {
+#comments-button:focus {
   outline: none;
 }
 
-#greeting-button:hover {
+#comments-button:hover {
   background-color: #f8f8f8;
   transition: 0.3s;
 }
 
-#greeting-container {
+#comments-form {
   background-color: #f8f8f8;
   display: none;
   margin: 1rem 0;
@@ -55,16 +61,16 @@ body, html {
   background-image: url("/images/bg-shirt-blur.jpg");
 }
 
-.material-icons.md-5 { 
+.material-icons.md-5 {
   font-size: 5rem;
 }
 
-.material-icons.md-8 { 
+.material-icons.md-8 {
   font-size: 2rem;
 }
 
-.material-icons.md-light { 
-  color: rgba(255, 255, 255, 1); 
+.material-icons.md-light {
+  color: rgba(255, 255, 255, 1);
 }
 
 .centered {
@@ -89,7 +95,8 @@ body, html {
   color: white;
 }
 
-#music, #research {
+#music,
+#research {
   display: none;
 }
 
@@ -107,7 +114,7 @@ body, html {
 }
 
 .school-links {
-  color: rgb(209,193,174);
+  color: rgb(209, 193, 174);
   text-decoration: none;
 }
 
@@ -138,7 +145,7 @@ td p {
 }
 
 .work-links {
-  color: rgb(61,95,121);
+  color: rgb(61, 95, 121);
   font-weight: bold;
 }
 
@@ -147,7 +154,7 @@ td p {
 }
 
 .hobbies-links {
-  color: rgb(250,220,220);
+  color: rgb(250, 220, 220);
   font-weight: bold;
 }
 

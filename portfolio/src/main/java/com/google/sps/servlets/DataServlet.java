@@ -14,30 +14,53 @@
 
 package com.google.sps.servlets;
 
-import com.google.common.collect.ImmutableList; 
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. */
+/** Servlet that handles user comments. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-
-  private static final ImmutableList<String> greetings = ImmutableList.of("Bonjour!", "Hello!", "Ni hao!");
+  private List<String> comments = new ArrayList<>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
-    response.getWriter().println(convertToJson(greetings));
+    response.getWriter().println(convertToJson(comments));
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the input from the form.
+    String name = getParameter(request, "name", "anonymous");
+    String comment = getParameter(request, "comment", "");
+
+    // Respond with a refresh and update running comment list.
+    comments.add(name + " says: " + comment);
+    response.sendRedirect("/index.html");
   }
 
   /**
    * Converts a DataServlet instance into a JSON string using the Gson library.
    */
-  private String convertToJson(ImmutableList<String> data) {
+  private String convertToJson(List<String> data) {
     return new Gson().toJson(data);
+  }
+
+  /**
+   * @return the request parameter, or the default value if the parameter
+   *         was not specified by the client
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value.isEmpty()) {
+      return defaultValue;
+    }
+    return value;
   }
 }
