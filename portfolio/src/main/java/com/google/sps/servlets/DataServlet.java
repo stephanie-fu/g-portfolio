@@ -14,6 +14,9 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   private List<String> comments = new ArrayList<>();
+  private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -40,8 +44,10 @@ public class DataServlet extends HttpServlet {
     String name = getParameter(request, "name", "anonymous");
     String comment = getParameter(request, "comment", "");
 
-    // Respond with a refresh and update running comment list.
+    // Respond with a refresh and do local and persistent storage updates.
     comments.add(name + " says: " + comment);
+    storeComments(name, comment);
+    
     response.sendRedirect("/index.html");
   }
 
@@ -62,5 +68,15 @@ public class DataServlet extends HttpServlet {
       return defaultValue;
     }
     return value;
+  }
+
+  /**
+   * Stores user comments in a form of persistent storage.
+   */
+  private void storeComments(String name, String comment) {
+    Entity taskEntity = new Entity("Comment");
+    taskEntity.setProperty("name", name);
+    taskEntity.setProperty("comment", comment);
+    datastore.put(taskEntity);
   }
 }
