@@ -32,19 +32,20 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that handles user comments. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private List<String> comments = new ArrayList<>();
   private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
   private final String dataKind = "Comment";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query(dataKind);
+    List<String> comments = new ArrayList<>();
+    Query query = new Query(dataKind).addSort("timestamp", SortDirection.ASCENDING);;
     PreparedQuery results = datastore.prepare(query);
     
     for (Entity entity : results.asIterable()) {
       String name = (String) entity.getProperty("name");
       String comment = (String) entity.getProperty("comment");
-      comments.add(getCommentStatement(name, comment));
+      long timestamp = (long) entity.getProperty("timestamp");
+      comments.add(getCommentStatement(name, comment, timestamp));
     }
 
     response.setContentType("application/json;");
@@ -55,12 +56,9 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String name = getParameter(request, "name", "anonymous");
     String comment = getParameter(request, "comment", "");
-    Entity commentEntity = new Entity(dataKind);
+    long timestamp = System.currentTimeMillis();
 
-    commentEntity.setProperty("name", name);
-    commentEntity.setProperty("comment", comment);
-    datastore.put(commentEntity);
-    
+    storeComments(name, comment, timestamp);
     response.sendRedirect("/index.html");
   }
 
@@ -74,8 +72,8 @@ public class DataServlet extends HttpServlet {
   /**
    * @return the desired comment format to display
    */
-  private String getCommentStatement(String name, String comment) {
-    return name + " says: " + comment;
+  private String getCommentStatement(String name, String comment, long timestamp) {
+    return "at " + timestamp + ", "  + name + " said: " + comment;
   }
 
   /**
@@ -93,10 +91,11 @@ public class DataServlet extends HttpServlet {
   /**
    * Stores user comments in a form of persistent storage.
    */
-  private void storeComments(String name, String comment) {
+  private void storeComments(String name, String comment, long timestamp) {
     Entity taskEntity = new Entity(dataKind);
     taskEntity.setProperty("name", name);
     taskEntity.setProperty("comment", comment);
+    taskEntity.setProperty("timestamp", timestamp);
     datastore.put(taskEntity);
   }
 }
