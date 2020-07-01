@@ -30,7 +30,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   private List<String> comments = new ArrayList<>();
-  private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  private static final String ENTITY_KIND = "Comment";
+  private static final String ENTITY_NAME_HEADER = "name";
+  private static final String ENTITY_COMMENT_HEADER = "comment";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -41,11 +44,11 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    String name = getParameter(request, "name", "anonymous");
-    String comment = getParameter(request, "comment", "");
+    String name = getParameter(request, ENTITY_NAME_HEADER, "anonymous");
+    String comment = getParameter(request, ENTITY_COMMENT_HEADER, "");
 
     // Respond with a refresh and do local and persistent storage updates.
-    comments.add(name + " says: " + comment);
+    comments.add(String.format("%s says: %s", name, comment));
     storeComments(name, comment);
     
     response.sendRedirect("/index.html");
@@ -54,7 +57,7 @@ public class DataServlet extends HttpServlet {
   /**
    * Converts a DataServlet instance into a JSON string using the Gson library.
    */
-  private String convertToJson(List<String> data) {
+  private static String convertToJson(List<String> data) {
     return new Gson().toJson(data);
   }
 
@@ -62,7 +65,7 @@ public class DataServlet extends HttpServlet {
    * @return the request parameter, or the default value if the parameter
    *         was not specified by the client
    */
-  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+  private static String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
     if (value.isEmpty()) {
       return defaultValue;
@@ -73,10 +76,10 @@ public class DataServlet extends HttpServlet {
   /**
    * Stores user comments in a form of persistent storage.
    */
-  private void storeComments(String name, String comment) {
-    Entity taskEntity = new Entity("Comment");
-    taskEntity.setProperty("name", name);
-    taskEntity.setProperty("comment", comment);
+  private static void storeComments(String name, String comment) {
+    Entity taskEntity = new Entity(ENTITY_KIND);
+    taskEntity.setProperty(ENTITY_NAME_HEADER, name);
+    taskEntity.setProperty(ENTITY_COMMENT_HEADER, comment);
     datastore.put(taskEntity);
   }
 }
