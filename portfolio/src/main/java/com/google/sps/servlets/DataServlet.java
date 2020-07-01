@@ -61,7 +61,6 @@ public class DataServlet extends HttpServlet {
 
     // Respond with a refresh and do local and persistent storage updates.
     storeComments(name, comment, timestamp);
-    
     response.sendRedirect("/index.html");
   }
 
@@ -80,6 +79,13 @@ public class DataServlet extends HttpServlet {
   }
 
   /**
+   * @return the desired comment format to display
+   */
+  private static String getCommentStatement(String name, String comment, long timestamp) {
+    return String.format("at %d, %s said: %s", timestamp, name, comment);
+  }
+
+  /**
    * @return the request parameter, or the default value if the parameter
    *         was not specified by the client
    */
@@ -89,13 +95,6 @@ public class DataServlet extends HttpServlet {
       return defaultValue;
     }
     return value;
-  }
-  
-  /**
-   * @return the desired comment format to display
-   */
-  private static String getCommentStatement(String name, String comment, long timestamp) {
-    return "at " + timestamp + ", "  + name + " said: " + comment;
   }
 
   /**
