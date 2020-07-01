@@ -17,6 +17,9 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,22 +34,32 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
   private List<String> comments = new ArrayList<>();
   private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  private final String dataKind = "Comment";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Query query = new Query(dataKind);
+    PreparedQuery results = datastore.prepare(query);
+    
+    for (Entity entity : results.asIterable()) {
+      String name = (String) entity.getProperty("name");
+      String comment = (String) entity.getProperty("comment");
+      comments.add(getCommentStatement(name, comment));
+    }
+
     response.setContentType("application/json;");
     response.getWriter().println(convertToJson(comments));
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the input from the form.
     String name = getParameter(request, "name", "anonymous");
     String comment = getParameter(request, "comment", "");
+    Entity commentEntity = new Entity(dataKind);
 
-    // Respond with a refresh and do local and persistent storage updates.
-    comments.add(name + " says: " + comment);
-    storeComments(name, comment);
+    commentEntity.setProperty("name", name);
+    commentEntity.setProperty("comment", comment);
+    datastore.put(commentEntity);
     
     response.sendRedirect("/index.html");
   }
@@ -56,6 +69,13 @@ public class DataServlet extends HttpServlet {
    */
   private String convertToJson(List<String> data) {
     return new Gson().toJson(data);
+  }
+
+  /**
+   * @return the desired comment format to display
+   */
+  private String getCommentStatement(String name, String comment) {
+    return name + " says: " + comment;
   }
 
   /**
@@ -74,7 +94,7 @@ public class DataServlet extends HttpServlet {
    * Stores user comments in a form of persistent storage.
    */
   private void storeComments(String name, String comment) {
-    Entity taskEntity = new Entity("Comment");
+    Entity taskEntity = new Entity(dataKind);
     taskEntity.setProperty("name", name);
     taskEntity.setProperty("comment", comment);
     datastore.put(taskEntity);
