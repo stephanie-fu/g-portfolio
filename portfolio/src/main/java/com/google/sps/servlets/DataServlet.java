@@ -17,6 +17,9 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,14 +32,22 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that handles user comments. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private List<String> comments = new ArrayList<>();
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
   private static final String ENTITY_KIND = "Comment";
   private static final String ENTITY_NAME_HEADER = "name";
   private static final String ENTITY_COMMENT_HEADER = "comment";
+  private static final String ENTITY_TIMESTAMP_HEADER = "timestamp";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    List<String> comments = new ArrayList<>();
+    Query query = new Query(ENTITY_KIND).addSort(ENTITY_TIMESTAMP_HEADER, SortDirection.ASCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      comments.add(buildComment(entity));
+    }
+
     response.setContentType("application/json;");
     response.getWriter().println(convertToJson(comments));
   }
@@ -48,23 +59,21 @@ public class DataServlet extends HttpServlet {
     String comment = getParameter(request, ENTITY_COMMENT_HEADER, /* DefaultValue= */ "");
 
     // Respond with a refresh and do local and persistent storage updates.
-    comments.add(String.format("%s says: %s", name, comment));
-    storeComments(name, comment);
-    
+    storeComments(name, comment, timestamp);
     response.sendRedirect("/index.html");
   }
 
-  /**
-   * Converts a DataServlet instance into a JSON string using the Gson library.
-   */
+  private static String buildComment(Entity entity) {
+    String name = (String) entity.getProperty(ENTITY_NAME_HEADER);
+    String comment = (String) entity.getProperty(ENTITY_COMMENT_HEADER);
+    long timestamp = (long) entity.getProperty(ENTITY_TIMESTAMP_HEADER);
+    return String.format("at %d, %s said: %s", timestamp, name, comment);
+  }
+
   private static String convertToJson(List<String> data) {
     return new Gson().toJson(data);
   }
-
-  /**
-   * @return the request parameter, or the default value if the parameter
-   *         was not specified by the client
-   */
+  
   private static String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
     if (value.isEmpty()) {
@@ -73,13 +82,11 @@ public class DataServlet extends HttpServlet {
     return value;
   }
 
-  /**
-   * Stores user comments in a form of persistent storage.
-   */
-  private static void storeComments(String name, String comment) {
+  private static void storeComments(String name, String comment, long timestamp) {
     Entity taskEntity = new Entity(ENTITY_KIND);
     taskEntity.setProperty(ENTITY_NAME_HEADER, name);
     taskEntity.setProperty(ENTITY_COMMENT_HEADER, comment);
+    taskEntity.setProperty(ENTITY_TIMESTAMP_HEADER, timestamp);
     datastore.put(taskEntity);
   }
 }
