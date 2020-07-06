@@ -68,17 +68,13 @@ public class DataServlet extends HttpServlet {
     String name = (String) entity.getProperty(ENTITY_NAME_HEADER);
     String comment = (String) entity.getProperty(ENTITY_COMMENT_HEADER);
     long timestamp = (long) entity.getProperty(ENTITY_TIMESTAMP_HEADER);
-    return getCommentStatement(name, comment, timestamp);
+    return String.format("at %d, %s said: %s", timestamp, name, comment);
   }
 
   private static String convertToJson(List<String> data) {
     return new Gson().toJson(data);
   }
-
-  private static String getCommentStatement(String name, String comment, long timestamp) {
-    return String.format("at %d, %s said: %s", timestamp, name, comment);
-  }
-
+  
   private static String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
     if (value.isEmpty()) {
