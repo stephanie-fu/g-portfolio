@@ -57,6 +57,7 @@ public class DataServlet extends HttpServlet {
     // Get the input from the form.
     String name = getParameter(request, ENTITY_NAME_HEADER, /* DefaultValue= */ "anonymous");
     String comment = getParameter(request, ENTITY_COMMENT_HEADER, /* DefaultValue= */ "");
+    long timestamp = System.currentTimeMillis();
 
     // Respond with a refresh and do local and persistent storage updates.
     storeComments(name, comment, timestamp);
