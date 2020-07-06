@@ -55,9 +55,8 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    String name = getParameter(request, ENTITY_NAME_HEADER, "anonymous");
-    String comment = getParameter(request, ENTITY_COMMENT_HEADER, "");
-    long timestamp = System.currentTimeMillis();
+    String name = getParameter(request, ENTITY_NAME_HEADER, /* DefaultValue= */ "anonymous");
+    String comment = getParameter(request, ENTITY_COMMENT_HEADER, /* DefaultValue= */ "");
 
     // Respond with a refresh and do local and persistent storage updates.
     storeComments(name, comment, timestamp);
