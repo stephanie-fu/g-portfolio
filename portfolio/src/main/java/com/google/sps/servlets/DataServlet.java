@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  private static final UserService userService = UserServiceFactory.getUserService();
   private static final String ENTITY_KIND = "Comment";
   private static final String ENTITY_NAME_HEADER = "name";
   private static final String ENTITY_EMAIL_HEADER = "email";
@@ -57,7 +58,6 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
     // Get the input from the form.
     String name = getParameter(request, ENTITY_NAME_HEADER, /* DefaultValue= */ "anonymous");
     String email = userService.getCurrentUser().getEmail();
