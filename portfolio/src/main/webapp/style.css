@@ -193,6 +193,11 @@ td p {
   padding-left: 1rem;
 }
 
+#lang-label {
+  background-color: white;
+  padding: 0.5rem;
+}
+
 /* End social bar styling */
 
 /* Begin coursework styling */
