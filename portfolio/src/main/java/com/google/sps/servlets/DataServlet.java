@@ -35,6 +35,7 @@ public class DataServlet extends HttpServlet {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
   private static final String ENTITY_KIND = "Comment";
   private static final String ENTITY_NAME_HEADER = "name";
+  private static final String ENTITY_EMAIL_HEADER = "email";
   private static final String ENTITY_COMMENT_HEADER = "comment";
   private static final String ENTITY_TIMESTAMP_HEADER = "timestamp";
 
@@ -56,19 +57,21 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
     String name = getParameter(request, ENTITY_NAME_HEADER, /* DefaultValue= */ "anonymous");
+    String email = '';
     String comment = getParameter(request, ENTITY_COMMENT_HEADER, /* DefaultValue= */ "");
     long timestamp = System.currentTimeMillis();
 
     // Respond with a refresh and do local and persistent storage updates.
-    storeComments(name, comment, timestamp);
+    storeComments(name, email, comment, timestamp);
     response.sendRedirect("/index.html");
   }
 
   private static String buildComment(Entity entity) {
     String name = (String) entity.getProperty(ENTITY_NAME_HEADER);
+    String email = (String) entity.getProperty(ENTITY_EMAIL_HEADER);
     String comment = (String) entity.getProperty(ENTITY_COMMENT_HEADER);
     long timestamp = (long) entity.getProperty(ENTITY_TIMESTAMP_HEADER);
-    return String.format("at %d, %s said: %s", timestamp, name, comment);
+    return String.format("at %d, %s (%s) said: %s", timestamp, name, email, comment);
   }
 
   private static String convertToJson(List<String> data) {
@@ -83,9 +86,10 @@ public class DataServlet extends HttpServlet {
     return value;
   }
 
-  private static void storeComments(String name, String comment, long timestamp) {
+  private static void storeComments(String name, String email, String comment, long timestamp) {
     Entity taskEntity = new Entity(ENTITY_KIND);
     taskEntity.setProperty(ENTITY_NAME_HEADER, name);
+    taskEntity.setProperty(ENTITY_EMAIL_HEADER, email);
     taskEntity.setProperty(ENTITY_COMMENT_HEADER, comment);
     taskEntity.setProperty(ENTITY_TIMESTAMP_HEADER, timestamp);
     datastore.put(taskEntity);
