@@ -42,7 +42,14 @@ function openCourses(evt, courseName) {
  * Makes comments form visible.
  */
 function showCommentsForm() {
-  document.getElementById('comments-form').style.display = 'block';
+  isLoggedIn().then((loggedIn) => {
+    if (loggedIn) {
+      document.getElementById('comments-form').style.display = 'block';
+    }
+    else {
+      window.location.replace("/login");
+    }
+  });
 }
 
 /**
@@ -64,4 +71,9 @@ function createListElement(text) {
   const liElement = document.createElement('li');
   liElement.innerText = text;
   return liElement;
+}
+
+async function isLoggedIn() {
+  let response = await fetch('/login');
+  return response.ok;
 }

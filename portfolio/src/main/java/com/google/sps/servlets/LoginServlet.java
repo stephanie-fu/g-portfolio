@@ -21,15 +21,17 @@ public class LoginServlet extends HttpServlet {
 
     // Only logged-in users can see the form
     UserService userService = UserServiceFactory.getUserService();
-    String logUrl = userService.createLogoutURL("/login");
     if (userService.isUserLoggedIn()) {
+      String logoutUrl = userService.createLogoutURL("/login");
       out.println("<p>Hello " + userService.getCurrentUser().getEmail() + "!</p>");
       out.println("<p>You are logged in.</p>");
-      out.println("<p>Logout <a href=\"" + logUrl + "\">here</a>.</p>");
+      out.println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
     } else {
+      String loginUrl = userService.createLoginURL("/login");
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
       out.println("<p>Hello stranger!</p>");
       out.println("<p>You are not logged in.</p>");
-      out.println("<p>Login <a href=\"" + logUrl + "\">here</a>.</p>");
+      out.println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
     }
   }
 }
