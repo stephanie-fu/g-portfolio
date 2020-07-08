@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
 window.onload = function onLoad() {
   getComments();
 }
@@ -64,4 +67,24 @@ function createListElement(text) {
   const liElement = document.createElement('li');
   liElement.innerText = text;
   return liElement;
+}
+
+/** Creates a chart and adds it to the page. */
+function drawChart() {
+  const mind = google.visualization.arrayToDataTable([
+    ['Trait', 'Extraverted', 'Introverted', { role: 'annotation' } ],
+    ['Mind', .89, .11, '']
+  ]);
+
+  const options = {
+    width: 800,
+    height: 100,
+    legend: { position: 'top', maxLines: 3 },
+    isStacked: 'percent', 
+    backgroundColor: 'transparent'
+  };
+
+  const chart = new google.visualization.BarChart(
+      document.getElementById('mbti-chart'));
+  chart.draw(mind, options);
 }
