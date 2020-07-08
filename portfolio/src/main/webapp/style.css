@@ -61,6 +61,10 @@ html {
   background-image: url("/images/bg-shirt-blur.jpg");
 }
 
+#bg-mbti {
+  background-image: url("/images/bg-rock2-blur.jpg");
+}
+
 .material-icons.md-5 {
   font-size: 5rem;
 }
