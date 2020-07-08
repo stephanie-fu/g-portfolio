@@ -13,7 +13,7 @@
 // limitations under the License.
 
 window.onload = function onLoad() {
-  getComments();
+  getComments('en');
 }
 
 /**
@@ -48,9 +48,11 @@ function showCommentsForm() {
 /**
  * Fetches a list of comments and displays them on the UI.
  */
-function getComments() {
-  fetch('/data').then(response => response.json()).then((comments) => {
+function getComments(language) {
+  fetch('/data?' + new URLSearchParams({lang: language}))
+  .then(response => response.json()).then((comments) => {
     let commentsContainer = document.getElementById('comments-container');
+    commentsContainer.innerHTML = '';
     for (let i = 0; i < comments.length; i++) {
       commentsContainer.appendChild(createListElement(comments[i]));
     }
