@@ -22,14 +22,12 @@ window.onload = function onLoad() {
  * @param {String} courseName Tab ID to be opened
  */
 function openCourses(evt, courseName) {
-  let tabcontent, tablinks;
-
-  tabcontent = document.getElementsByClassName('tabcontent');
+  const tabcontent = document.getElementsByClassName('tabcontent');
   for (let i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = 'none';
   }
 
-  tablinks = document.getElementsByClassName('tablinks');
+  const tablinks = document.getElementsByClassName('tablinks');
   for (let i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(' active', '');
   }
@@ -49,8 +47,8 @@ function showCommentsForm() {
  * Fetches a list of comments and displays them on the UI.
  */
 function getComments() {
-  let language = document.getElementById('languages').value;
-  let commentsContainer = document.getElementById('comments-container');
+  const language = document.getElementById('languages').value;
+  const commentsContainer = document.getElementById('comments-container');
   
   fetch('/data?' + new URLSearchParams({'lang': language}))
   .then(response => response.json()).then((comments) => {
