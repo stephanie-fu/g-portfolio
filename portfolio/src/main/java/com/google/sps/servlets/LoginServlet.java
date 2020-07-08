@@ -28,6 +28,7 @@ public class LoginServlet extends HttpServlet {
       out.println(String.format("<p>Logout <a href=\"%s\">here</a>.</p>", logoutUrl));
     } else {
       String loginUrl = userService.createLoginURL("/login");
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
       out.println("<p>Hello stranger!</p>");
       out.println("<p>You are not logged in.</p>");
       out.println(String.format("<p>Login <a href=\"%s\">here</a>.</p>", loginUrl));
