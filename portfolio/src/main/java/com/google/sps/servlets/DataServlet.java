@@ -20,6 +20,9 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,24 +36,25 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  private static final Translate translate = TranslateOptions.getDefaultInstance().getService();
   private static final String ENTITY_KIND = "Comment";
   private static final String ENTITY_NAME_HEADER = "name";
   private static final String ENTITY_COMMENT_HEADER = "comment";
   private static final String ENTITY_TIMESTAMP_HEADER = "timestamp";
+  private static String currentLanguage = "en";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    System.out.println(request.getParameter("lang"));
-
     List<String> comments = new ArrayList<>();
     Query query = new Query(ENTITY_KIND).addSort(ENTITY_TIMESTAMP_HEADER, SortDirection.ASCENDING);
     PreparedQuery results = datastore.prepare(query);
-
+    String languageCode = request.getParameter("lang");
     for (Entity entity : results.asIterable()) {
-      comments.add(buildComment(entity));
+      comments.add(buildComment(entity, languageCode));
     }
-
+    currentLanguage = languageCode;
     response.setContentType("application/json;");
+    response.setCharacterEncoding("UTF-8");
     response.getWriter().println(convertToJson(comments));
   }
 
@@ -65,10 +69,13 @@ public class DataServlet extends HttpServlet {
     storeComments(name, comment, timestamp);
     response.sendRedirect("/index.html");
   }
-
-  private static String buildComment(Entity entity) {
+  
+  private static String buildComment(Entity entity, String languageCode) {
     String name = (String) entity.getProperty(ENTITY_NAME_HEADER);
     String comment = (String) entity.getProperty(ENTITY_COMMENT_HEADER);
+    if (!currentLanguage.equals(languageCode)) {
+      comment = translateComment(comment, languageCode);
+    }
     long timestamp = (long) entity.getProperty(ENTITY_TIMESTAMP_HEADER);
     return String.format("at %d, %s said: %s", timestamp, name, comment);
   }
@@ -91,5 +98,11 @@ public class DataServlet extends HttpServlet {
     taskEntity.setProperty(ENTITY_COMMENT_HEADER, comment);
     taskEntity.setProperty(ENTITY_TIMESTAMP_HEADER, timestamp);
     datastore.put(taskEntity);
+  }
+
+  private static String translateComment(String originalText, String languageCode) {
+    Translation translation =
+        translate.translate(originalText, Translate.TranslateOption.targetLanguage(languageCode));
+    return translation.getTranslatedText();
   }
 }
