@@ -47,7 +47,8 @@ public class DataServlet extends HttpServlet {
   private static final String ENTITY_TIMESTAMP_HEADER = "timestamp";
   private static String currentLanguage = "en";
 
-  @Overrideest, HttpServletResponse response) throws IOException {
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     List<String> comments = new ArrayList<>();
     Query query = new Query(ENTITY_KIND).addSort(ENTITY_TIMESTAMP_HEADER, SortDirection.ASCENDING);
     PreparedQuery results = datastore.prepare(query);
