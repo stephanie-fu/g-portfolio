@@ -47,15 +47,20 @@ function showCommentsForm() {
  * Fetches a list of comments and displays them on the UI.
  */
 function getComments() {
-  const language = document.getElementById('languages').value;
+  const languageDropdown = $('#languages');
   const commentsContainer = document.getElementById('comments-container');
+  const defaultLanguage = 'en';
+
+  let prevLanguage = languageDropdown.data('prev') || defaultLanguage;
+  let newLanguage = languageDropdown.val();
   
-  fetch('/data?' + new URLSearchParams({'lang': language}))
+  fetch('/data?' + new URLSearchParams({'from': prevLanguage, 'to': newLanguage}))
   .then(response => response.json()).then((comments) => {
     commentsContainer.innerHTML = '';
     for (let i = 0; i < comments.length; i++) {
       commentsContainer.appendChild(createListElement(comments[i]));
     }
+    languageDropdown.data('prev', newLanguage);
   });
 }
 

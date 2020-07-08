@@ -45,18 +45,17 @@ public class DataServlet extends HttpServlet {
   private static final String ENTITY_EMAIL_HEADER = "email";
   private static final String ENTITY_COMMENT_HEADER = "comment";
   private static final String ENTITY_TIMESTAMP_HEADER = "timestamp";
-  private static String currentLanguage = "en";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     List<String> comments = new ArrayList<>();
     Query query = new Query(ENTITY_KIND).addSort(ENTITY_TIMESTAMP_HEADER, SortDirection.ASCENDING);
     PreparedQuery results = datastore.prepare(query);
-    String languageCode = request.getParameter("lang");
+    String prevLanguageCode = request.getParameter("from");
+    String languageCode = request.getParameter("to");
     for (Entity entity : results.asIterable()) {
-      comments.add(buildComment(entity, languageCode));
+      comments.add(buildComment(entity, prevLanguageCode, languageCode));
     }
-    currentLanguage = languageCode;
     response.setContentType("application/json;");
     response.setCharacterEncoding("UTF-8");
     response.getWriter().println(convertToJson(comments));
@@ -75,11 +74,11 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/index.html");
   }
   
-  private static String buildComment(Entity entity, String languageCode) {
+  private static String buildComment(Entity entity, String prevLanguageCode, String languageCode) {
     String name = (String) entity.getProperty(ENTITY_NAME_HEADER);
     String email = (String) entity.getProperty(ENTITY_EMAIL_HEADER);
     String comment = (String) entity.getProperty(ENTITY_COMMENT_HEADER);
-    if (!currentLanguage.equals(languageCode)) {
+    if (!prevLanguageCode.equals(languageCode)) {
       comment = translateComment(comment, languageCode);
     }
     long timestamp = (long) entity.getProperty(ENTITY_TIMESTAMP_HEADER);
