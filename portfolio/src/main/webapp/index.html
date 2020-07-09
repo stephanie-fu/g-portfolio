@@ -39,6 +39,11 @@
       <button id="comments-button" onclick="showCommentsForm()">
         Leave a comment!
       </button>
+      <label for="languages" id="lang-label">Choose a language:</label>
+      <select name="languages" id="languages" onchange="getComments(this.options[this.selectedIndex].value);">
+        <option value="en">English</option>
+        <option value="fr">French</option>
+      </select>
       <div id="comments-form">
         <form action="/data" method="POST">
           <label for="name">Name: </label>
