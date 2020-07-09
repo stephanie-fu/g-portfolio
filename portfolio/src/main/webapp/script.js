@@ -51,17 +51,17 @@ function getComments() {
   const commentsContainer = document.getElementById('comments-container');
   const defaultLanguage = 'en';
 
-  let prevLanguage = languageDropdown.data('prev') || defaultLanguage;
-  let newLanguage = languageDropdown.val();
+  let sourceLanguage = languageDropdown.data('prev') || defaultLanguage;
+  let targetLanguage = languageDropdown.val();
   
-  fetch('/data?' + new URLSearchParams({'sourceLanguageCode': prevLanguage, 
-                                        'targetLanguageCode': newLanguage}))
+  fetch('/data?' + new URLSearchParams({'sourceLanguageCode': sourceLanguage, 
+                                        'targetLanguageCode': targetLanguage}))
   .then(response => response.json()).then((comments) => {
     commentsContainer.innerHTML = '';
     for (let i = 0; i < comments.length; i++) {
       commentsContainer.appendChild(createListElement(comments[i]));
     }
-    languageDropdown.data('prev', newLanguage);
+    languageDropdown.data('prev', targetLanguage);
   });
 }
 

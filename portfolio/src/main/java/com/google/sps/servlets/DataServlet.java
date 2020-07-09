@@ -52,10 +52,10 @@ public class DataServlet extends HttpServlet {
     List<String> comments = new ArrayList<>();
     Query query = new Query(ENTITY_KIND).addSort(ENTITY_TIMESTAMP_HEADER, SortDirection.ASCENDING);
     PreparedQuery results = datastore.prepare(query);
-    String prevLanguageCode = request.getParameter("sourceLanguageCode");
-    String languageCode = request.getParameter("targetLanguageCode");
+    String sourceLanguageCode = request.getParameter("sourceLanguageCode");
+    String targetLanguageCode = request.getParameter("targetLanguageCode");
     for (Entity entity : results.asIterable()) {
-      comments.add(buildComment(entity, prevLanguageCode, "languageCode"));
+      comments.add(buildComment(entity, sourceLanguageCode, targetLanguageCode));
     }
     response.setContentType("application/json;");
     response.setCharacterEncoding("UTF-8");
@@ -75,12 +75,12 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/index.html");
   }
   
-  private static String buildComment(Entity entity, String prevLanguageCode, String languageCode) {
+  private static String buildComment(Entity entity, String sourceLanguageCode, String targetLanguageCode) {
     String name = (String) entity.getProperty(ENTITY_NAME_HEADER);
     String email = (String) entity.getProperty(ENTITY_EMAIL_HEADER);
     String comment = (String) entity.getProperty(ENTITY_COMMENT_HEADER);
-    if (!prevLanguageCode.equals(languageCode)) {
-      comment = translateComment(comment, languageCode);
+    if (!sourceLanguageCode.equals(targetLanguageCode)) {
+      comment = translateComment(comment, targetLanguageCode);
     }
     long timestamp = (long) entity.getProperty(ENTITY_TIMESTAMP_HEADER);
     return String.format("at %d, %s (%s) said: %s", timestamp, name, email, comment);
@@ -107,10 +107,10 @@ public class DataServlet extends HttpServlet {
     datastore.put(taskEntity);
   }
 
-  private static String translateComment(String originalText, String languageCode) {
+  private static String translateComment(String originalText, String targetLanguageCode) {
     try {
       Translation translation =
-        translate.translate(originalText, Translate.TranslateOption.targetLanguage(languageCode));
+        translate.translate(originalText, Translate.TranslateOption.targetLanguage(targetLanguageCode));
       return translation.getTranslatedText();
     } catch (TranslateException e) {
       System.err.println(e.getMessage());
