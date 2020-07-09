@@ -69,22 +69,50 @@ function createListElement(text) {
   return liElement;
 }
 
-/** Creates a chart and adds it to the page. */
+/** 
+ * Creates a chart and adds it to the page. 
+ */
 function drawChart() {
-  const mind = google.visualization.arrayToDataTable([
-    ['Trait', 'Extraverted', 'Introverted', { role: 'annotation' } ],
-    ['Mind', .89, .11, '']
-  ]);
+  const majorityColor = '#045877';
+  const minorityColor = '#89DAFF';
+
+  const charts = [
+    google.visualization.arrayToDataTable([
+      ['Trait', 'Extraverted', { role: 'style' }, {role: 'annotation'}, 
+                'Introverted', { role: 'style' }, {role: 'annotation'}],
+      ['Mind', .11, minorityColor, 'Extraverted', .89, majorityColor, 'Introverted']
+    ]), 
+    google.visualization.arrayToDataTable([
+      ['Trait', 'Intuitive', { role: 'style' }, {role: 'annotation'}, 
+                'Observant', { role: 'style' }, {role: 'annotation'}],
+      ['Energy', .66, majorityColor, 'Intuitive', .34, minorityColor, 'Observant']
+    ]), 
+    google.visualization.arrayToDataTable([
+      ['Trait', 'Thinking', { role: 'style' }, {role: 'annotation'}, 
+                'Feeling', { role: 'style' }, {role: 'annotation'}],
+      ['Nature', .89, majorityColor, 'Thinking', .11, minorityColor, 'Feeling']
+    ]), 
+    google.visualization.arrayToDataTable([
+      ['Trait', 'Judging', { role: 'style' }, {role: 'annotation'}, 
+                'Prospecting', { role: 'style' }, {role: 'annotation'}],
+      ['Tactics', .54, majorityColor, 'Judging', .46, minorityColor, 'Prospecting']
+    ]), 
+    google.visualization.arrayToDataTable([
+      ['Trait', 'Assertive', { role: 'style' }, {role: 'annotation'}, 
+                'Turbulent', { role: 'style' }, {role: 'annotation'}],
+      ['Identity', .24, minorityColor, 'Assertive', .76, majorityColor, 'Turbulent']
+    ])
+  ];
 
   const options = {
-    width: 800,
-    height: 100,
-    legend: { position: 'top', maxLines: 3 },
+    backgroundColor: 'transparent', 
+    hAxis: { textPosition: 'none' },
     isStacked: 'percent', 
-    backgroundColor: 'transparent'
+    legend: 'none', 
   };
 
-  const chart = new google.visualization.BarChart(
-      document.getElementById('mbti-chart'));
-  chart.draw(mind, options);
+  for (let i = 0; i < charts.length; i++) {
+    new google.visualization.BarChart(
+        document.getElementById(`mbti-chart-${i}`)).draw(charts[i], options);
+  }
 }
