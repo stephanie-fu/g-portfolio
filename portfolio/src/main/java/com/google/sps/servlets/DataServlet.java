@@ -21,6 +21,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateException;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
 import com.google.appengine.api.users.UserService;
@@ -51,10 +52,10 @@ public class DataServlet extends HttpServlet {
     List<String> comments = new ArrayList<>();
     Query query = new Query(ENTITY_KIND).addSort(ENTITY_TIMESTAMP_HEADER, SortDirection.ASCENDING);
     PreparedQuery results = datastore.prepare(query);
-    String prevLanguageCode = request.getParameter("from");
-    String languageCode = request.getParameter("to");
+    String prevLanguageCode = request.getParameter("sourceLanguageCode");
+    String languageCode = request.getParameter("targetLanguageCode");
     for (Entity entity : results.asIterable()) {
-      comments.add(buildComment(entity, prevLanguageCode, languageCode));
+      comments.add(buildComment(entity, prevLanguageCode, "languageCode"));
     }
     response.setContentType("application/json;");
     response.setCharacterEncoding("UTF-8");
@@ -107,8 +108,13 @@ public class DataServlet extends HttpServlet {
   }
 
   private static String translateComment(String originalText, String languageCode) {
-    Translation translation =
+    try {
+      Translation translation =
         translate.translate(originalText, Translate.TranslateOption.targetLanguage(languageCode));
-    return translation.getTranslatedText();
+      return translation.getTranslatedText();
+    } catch (TranslateException e) {
+      System.err.println(e.getMessage());
+      return "Error: Please choose a valid language.";
+    }
   }
 }
