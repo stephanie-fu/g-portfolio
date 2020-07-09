@@ -78,40 +78,46 @@ function createListElement(text) {
   return liElement;
 }
 
+/**
+ * Creates a single chart based on one row of personality data
+ * @param {Object} dataRow  Single-key object containing a 2D array of traits
+ */
+function createChart(dataRow) {
+  const traitGroup = Object.keys(dataRow)[0];
+  const traitArray = dataRow[traitGroup];
+
+  const [firstTrait, firstValue] = traitArray[0];
+  const [secondTrait, secondValue] = traitArray[1];
+
+  let firstColor = '#045877';
+  let secondColor = '#89DAFF';
+
+  if (firstValue < secondValue) {
+    [firstColor, secondColor] = [secondColor, firstColor];
+  }
+
+  return google.visualization.arrayToDataTable([
+      ['', firstTrait, { role: 'style' }, {role: 'annotation'}, 
+          secondTrait, { role: 'style' }, {role: 'annotation'}],
+      ['', firstValue, firstColor, firstTrait, 
+          secondValue, secondColor, secondTrait]
+    ]);
+}
+
 /** 
  * Creates a chart and adds it to the page. 
  */
 function drawChart() {
-  const majorityColor = '#045877';
-  const minorityColor = '#89DAFF';
 
-  const charts = [
-    google.visualization.arrayToDataTable([
-      ['Trait', 'Extraverted', { role: 'style' }, {role: 'annotation'}, 
-                'Introverted', { role: 'style' }, {role: 'annotation'}],
-      ['Mind', .11, minorityColor, 'Extraverted', .89, majorityColor, 'Introverted']
-    ]), 
-    google.visualization.arrayToDataTable([
-      ['Trait', 'Intuitive', { role: 'style' }, {role: 'annotation'}, 
-                'Observant', { role: 'style' }, {role: 'annotation'}],
-      ['Energy', .66, majorityColor, 'Intuitive', .34, minorityColor, 'Observant']
-    ]), 
-    google.visualization.arrayToDataTable([
-      ['Trait', 'Thinking', { role: 'style' }, {role: 'annotation'}, 
-                'Feeling', { role: 'style' }, {role: 'annotation'}],
-      ['Nature', .89, majorityColor, 'Thinking', .11, minorityColor, 'Feeling']
-    ]), 
-    google.visualization.arrayToDataTable([
-      ['Trait', 'Judging', { role: 'style' }, {role: 'annotation'}, 
-                'Prospecting', { role: 'style' }, {role: 'annotation'}],
-      ['Tactics', .54, majorityColor, 'Judging', .46, minorityColor, 'Prospecting']
-    ]), 
-    google.visualization.arrayToDataTable([
-      ['Trait', 'Assertive', { role: 'style' }, {role: 'annotation'}, 
-                'Turbulent', { role: 'style' }, {role: 'annotation'}],
-      ['Identity', .24, minorityColor, 'Assertive', .76, majorityColor, 'Turbulent']
-    ])
-  ];
+  const data = [
+    {'Mind': [['Extraverted', .11], ['Introverted', .89]]}, 
+    {'Energy': [['Intuitive', .66], ['Observant', .34]]}, 
+    {'Nature': [['Thinking', .89], ['Feeling', .11]]}, 
+    {'Tactics': [['Judging', .54], ['Prospecting', .46]]}, 
+    {'Identity': [['Assertive', .24], ['Turbulent', .76]]}
+  ]
+
+  const charts = data.map(createChart);
 
   const options = {
     backgroundColor: 'transparent', 
