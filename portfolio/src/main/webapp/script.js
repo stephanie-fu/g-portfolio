@@ -54,7 +54,8 @@ function getComments() {
   let prevLanguage = languageDropdown.data('prev') || defaultLanguage;
   let newLanguage = languageDropdown.val();
   
-  fetch('/data?' + new URLSearchParams({'from': prevLanguage, 'to': newLanguage}))
+  fetch('/data?' + new URLSearchParams({'sourceLanguageCode': prevLanguage, 
+                                        'targetLanguageCode': newLanguage}))
   .then(response => response.json()).then((comments) => {
     commentsContainer.innerHTML = '';
     for (let i = 0; i < comments.length; i++) {
