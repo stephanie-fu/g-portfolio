@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
 window.onload = function onLoad() {
   getComments('en');
 }
@@ -73,6 +76,60 @@ function createListElement(text) {
   const liElement = document.createElement('li');
   liElement.innerText = text;
   return liElement;
+}
+
+/**
+ * Creates a single chart based on one row of personality data
+ * @param {Object} dataRow  Single-key object containing a 2D array of traits
+ */
+function createChart(dataRow) {
+  const traitGroup = Object.keys(dataRow)[0];
+  const traitArray = dataRow[traitGroup];
+
+  const [firstTrait, firstValue] = traitArray[0];
+  const [secondTrait, secondValue] = traitArray[1];
+
+  let firstColor = '#045877';
+  let secondColor = '#89DAFF';
+
+  if (firstValue < secondValue) {
+    [firstColor, secondColor] = [secondColor, firstColor];
+  }
+
+  return google.visualization.arrayToDataTable([
+      ['', firstTrait, { role: 'style' }, {role: 'annotation'}, 
+          secondTrait, { role: 'style' }, {role: 'annotation'}],
+      ['', firstValue, firstColor, firstTrait, 
+          secondValue, secondColor, secondTrait]
+    ]);
+}
+
+/** 
+ * Creates a chart and adds it to the page. 
+ */
+function drawChart() {
+
+  const data = [
+    {'Mind': [['Extraverted', .11], ['Introverted', .89]]}, 
+    {'Energy': [['Intuitive', .66], ['Observant', .34]]}, 
+    {'Nature': [['Thinking', .89], ['Feeling', .11]]}, 
+    {'Tactics': [['Judging', .54], ['Prospecting', .46]]}, 
+    {'Identity': [['Assertive', .24], ['Turbulent', .76]]}
+  ]
+
+  const charts = data.map(createChart);
+
+  const options = {
+    backgroundColor: 'transparent', 
+    hAxis: { textPosition: 'none' },
+    isStacked: 'percent', 
+    legend: 'none', 
+  };
+
+  for (let i = 0; i < charts.length; i++) {
+    new google.visualization.BarChart(
+        document.getElementById(`mbti-chart-${i}`)).draw(charts[i], options);
+  }
 }
 
 async function isLoggedIn() {
