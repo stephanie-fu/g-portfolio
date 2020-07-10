@@ -22,6 +22,9 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +33,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 /** Servlet that handles user comments. */
 @WebServlet("/data")
@@ -40,6 +44,7 @@ public class DataServlet extends HttpServlet {
   private static final String ENTITY_NAME_HEADER = "name";
   private static final String ENTITY_EMAIL_HEADER = "email";
   private static final String ENTITY_COMMENT_HEADER = "comment";
+  private static final String ENTITY_SENTIMENT_HEADER = "sentiment";
   private static final String ENTITY_TIMESTAMP_HEADER = "timestamp";
 
   @Override
@@ -65,9 +70,11 @@ public class DataServlet extends HttpServlet {
     String email = userService.getCurrentUser().getEmail();
     String comment = getParameter(request, ENTITY_COMMENT_HEADER, /* DefaultValue= */ "");
     long timestamp = System.currentTimeMillis();
+    Optional<Double> preSentiment = getSentiment(comment);
+    Double sentiment = preSentiment.isPresent() ? preSentiment.get() : Double.NaN;
 
     // Respond with a refresh and do local and persistent storage updates.
-    storeComments(name, email, comment, timestamp);
+    storeComments(name, email, comment, sentiment, timestamp);
     response.sendRedirect("/index.html");
   }
 
@@ -75,8 +82,11 @@ public class DataServlet extends HttpServlet {
     String name = (String) entity.getProperty(ENTITY_NAME_HEADER);
     String email = (String) entity.getProperty(ENTITY_EMAIL_HEADER);
     String comment = (String) entity.getProperty(ENTITY_COMMENT_HEADER);
+    Double sentiment = (Double) entity.getProperty(ENTITY_SENTIMENT_HEADER);
     long timestamp = (long) entity.getProperty(ENTITY_TIMESTAMP_HEADER);
-    return String.format("at %d, %s (%s) said: %s", timestamp, name, email, comment);
+    String commentDisplay = String.format("at %d, %s (%s) said: %s", timestamp, name, email, comment);
+    return !sentiment.isNaN() ? commentDisplay + String.format(" (with sentiment: %f)", (double) sentiment) : 
+                                   commentDisplay;
   }
 
   private static String convertToJson(List<String> data) {
@@ -91,11 +101,27 @@ public class DataServlet extends HttpServlet {
     return value;
   }
 
-  private static void storeComments(String name, String email, String comment, long timestamp) {
+  private static Optional<Double> getSentiment(String message) {
+    try {
+      Document doc =
+          Document.newBuilder().setContent(message).setType(Document.Type.PLAIN_TEXT).build();
+      LanguageServiceClient languageService = LanguageServiceClient.create();
+      Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+      double score = sentiment.getScore();
+      languageService.close();
+      return Optional.of(score);
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
+      return Optional.empty();
+    }
+  }
+
+  private static void storeComments(String name, String email, String comment, Double sentiment, long timestamp) {
     Entity taskEntity = new Entity(ENTITY_KIND);
     taskEntity.setProperty(ENTITY_NAME_HEADER, name);
     taskEntity.setProperty(ENTITY_EMAIL_HEADER, email);
     taskEntity.setProperty(ENTITY_COMMENT_HEADER, comment);
+    taskEntity.setProperty(ENTITY_SENTIMENT_HEADER, sentiment);
     taskEntity.setProperty(ENTITY_TIMESTAMP_HEADER, timestamp);
     datastore.put(taskEntity);
   }
