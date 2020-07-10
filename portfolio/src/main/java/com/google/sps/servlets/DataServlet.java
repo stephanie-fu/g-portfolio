@@ -20,6 +20,10 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateException;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
@@ -35,6 +39,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  private static final Translate translate = TranslateOptions.getDefaultInstance().getService();
   private static final UserService userService = UserServiceFactory.getUserService();
   private static final String ENTITY_KIND = "Comment";
   private static final String ENTITY_NAME_HEADER = "name";
@@ -44,17 +49,16 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    System.out.println(request.getParameter("lang"));
-
     List<String> comments = new ArrayList<>();
     Query query = new Query(ENTITY_KIND).addSort(ENTITY_TIMESTAMP_HEADER, SortDirection.ASCENDING);
     PreparedQuery results = datastore.prepare(query);
-
+    String sourceLanguageCode = request.getParameter("sourceLanguageCode");
+    String targetLanguageCode = request.getParameter("targetLanguageCode");
     for (Entity entity : results.asIterable()) {
-      comments.add(buildComment(entity));
+      comments.add(buildComment(entity, sourceLanguageCode, targetLanguageCode));
     }
-
     response.setContentType("application/json;");
+    response.setCharacterEncoding("UTF-8");
     response.getWriter().println(convertToJson(comments));
   }
 
@@ -70,11 +74,14 @@ public class DataServlet extends HttpServlet {
     storeComments(name, email, comment, timestamp);
     response.sendRedirect("/index.html");
   }
-
-  private static String buildComment(Entity entity) {
+  
+  private static String buildComment(Entity entity, String sourceLanguageCode, String targetLanguageCode) {
     String name = (String) entity.getProperty(ENTITY_NAME_HEADER);
     String email = (String) entity.getProperty(ENTITY_EMAIL_HEADER);
     String comment = (String) entity.getProperty(ENTITY_COMMENT_HEADER);
+    if (!sourceLanguageCode.equals(targetLanguageCode)) {
+      comment = translateComment(comment, targetLanguageCode);
+    }
     long timestamp = (long) entity.getProperty(ENTITY_TIMESTAMP_HEADER);
     return String.format("at %d, %s (%s) said: %s", timestamp, name, email, comment);
   }
@@ -98,5 +105,16 @@ public class DataServlet extends HttpServlet {
     taskEntity.setProperty(ENTITY_COMMENT_HEADER, comment);
     taskEntity.setProperty(ENTITY_TIMESTAMP_HEADER, timestamp);
     datastore.put(taskEntity);
+  }
+
+  private static String translateComment(String originalText, String targetLanguageCode) {
+    try {
+      Translation translation =
+        translate.translate(originalText, Translate.TranslateOption.targetLanguage(targetLanguageCode));
+      return translation.getTranslatedText();
+    } catch (TranslateException e) {
+      System.err.println(e.getMessage());
+      return "Error: Please choose a valid language.";
+    }
   }
 }

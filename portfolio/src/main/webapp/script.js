@@ -16,7 +16,7 @@ google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 
 window.onload = function onLoad() {
-  getComments('en');
+  getComments();
 }
 
 /**
@@ -25,14 +25,12 @@ window.onload = function onLoad() {
  * @param {String} courseName Tab ID to be opened
  */
 function openCourses(evt, courseName) {
-  let tabcontent, tablinks;
-
-  tabcontent = document.getElementsByClassName('tabcontent');
+  const tabcontent = document.getElementsByClassName('tabcontent');
   for (let i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = 'none';
   }
 
-  tablinks = document.getElementsByClassName('tablinks');
+  const tablinks = document.getElementsByClassName('tablinks');
   for (let i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(' active', '');
   }
@@ -58,14 +56,22 @@ function showCommentsForm() {
 /**
  * Fetches a list of comments and displays them on the UI.
  */
-function getComments(language) {
-  fetch('/data?' + new URLSearchParams({lang: language}))
+function getComments() {
+  const languageDropdown = $('#languages');
+  const commentsContainer = document.getElementById('comments-container');
+  const defaultLanguage = 'en';
+
+  let sourceLanguage = languageDropdown.data('prev') || defaultLanguage;
+  let targetLanguage = languageDropdown.val();
+  
+  fetch('/data?' + new URLSearchParams({'sourceLanguageCode': sourceLanguage, 
+                                        'targetLanguageCode': targetLanguage}))
   .then(response => response.json()).then((comments) => {
-    let commentsContainer = document.getElementById('comments-container');
     commentsContainer.innerHTML = '';
     for (let i = 0; i < comments.length; i++) {
       commentsContainer.appendChild(createListElement(comments[i]));
     }
+    languageDropdown.data('prev', targetLanguage);
   });
 }
 

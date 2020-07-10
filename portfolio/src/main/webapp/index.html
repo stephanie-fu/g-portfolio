@@ -12,6 +12,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="script.js"></script>
   </head>
@@ -40,9 +41,10 @@
         Leave a comment!
       </button>
       <label for="languages" id="lang-label">Choose a language:</label>
-      <select name="languages" id="languages" onchange="getComments(this.options[this.selectedIndex].value);">
+      <select name="languages" id="languages" onchange="getComments();">
         <option value="en">English</option>
         <option value="fr">French</option>
+        <option value="zh">Chinese</option>
       </select>
       <div id="comments-form">
         <form action="/data" method="POST">
