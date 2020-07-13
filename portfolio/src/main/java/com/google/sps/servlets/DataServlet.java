@@ -75,7 +75,6 @@ public class DataServlet extends HttpServlet {
     String comment = getParameter(request, ENTITY_COMMENT_HEADER, /* DefaultValue= */ "");
     long timestamp = System.currentTimeMillis();
     Optional<Double> sentiment = getSentiment(comment);
-    // Double sentiment = preSentiment.isPresent() ? preSentiment.get() : Double.NaN;
 
     // Respond with a refresh and do local and persistent storage updates.
     storeComments(name, email, comment, sentiment, timestamp);
