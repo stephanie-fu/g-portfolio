@@ -129,7 +129,7 @@ public class DataServlet extends HttpServlet {
     taskEntity.setProperty(ENTITY_NAME_HEADER, name);
     taskEntity.setProperty(ENTITY_EMAIL_HEADER, email);
     taskEntity.setProperty(ENTITY_COMMENT_HEADER, comment);
-    sentimentOptional.ifPresent(sentiment -> taskEntity.setProperty(ENTITY_SENTIMENT_HEADER, sentiment))
+    sentimentOptional.ifPresent(sentiment -> taskEntity.setProperty(ENTITY_SENTIMENT_HEADER, sentiment));
     taskEntity.setProperty(ENTITY_TIMESTAMP_HEADER, timestamp);
     datastore.put(taskEntity);
   }
