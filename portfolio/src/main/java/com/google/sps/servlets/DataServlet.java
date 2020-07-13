@@ -74,8 +74,8 @@ public class DataServlet extends HttpServlet {
     String email = userService.getCurrentUser().getEmail();
     String comment = getParameter(request, ENTITY_COMMENT_HEADER, /* DefaultValue= */ "");
     long timestamp = System.currentTimeMillis();
-    Optional<Double> preSentiment = getSentiment(comment);
-    Double sentiment = preSentiment.isPresent() ? preSentiment.get() : Double.NaN;
+    Optional<Double> sentiment = getSentiment(comment);
+    // Double sentiment = preSentiment.isPresent() ? preSentiment.get() : Double.NaN;
 
     // Respond with a refresh and do local and persistent storage updates.
     storeComments(name, email, comment, sentiment, timestamp);
@@ -86,14 +86,16 @@ public class DataServlet extends HttpServlet {
     String name = (String) entity.getProperty(ENTITY_NAME_HEADER);
     String email = (String) entity.getProperty(ENTITY_EMAIL_HEADER);
     String comment = (String) entity.getProperty(ENTITY_COMMENT_HEADER);
-    Double sentiment = (Double) entity.getProperty(ENTITY_SENTIMENT_HEADER);
+    String sentimentAddOn = "";
+    if (entity.hasProperty(ENTITY_SENTIMENT_HEADER)) {
+      double sentiment = (double) entity.getProperty(ENTITY_SENTIMENT_HEADER);
+      sentimentAddOn = String.format("(with sentiment: %f)", sentiment);
+    }
     if (!sourceLanguageCode.equals(targetLanguageCode)) {
       comment = translateComment(comment, targetLanguageCode);
     }
     long timestamp = (long) entity.getProperty(ENTITY_TIMESTAMP_HEADER);
-    String commentDisplay = String.format("at %d, %s (%s) said: %s", timestamp, name, email, comment);
-    return !sentiment.isNaN() ? commentDisplay + String.format(" (with sentiment: %f)", (double) sentiment) : 
-                                   commentDisplay;
+    return String.format("at %d, %s (%s) said: %s %s", timestamp, name, email, comment, sentimentAddOn);
   }
 
   private static String convertToJson(List<String> data) {
@@ -118,17 +120,19 @@ public class DataServlet extends HttpServlet {
       languageService.close();
       return Optional.of(score);
     } catch (IOException e) {
-      System.err.println(e.getMessage());
+      e.printStackTrace();
       return Optional.empty();
     }
   }
 
-  private static void storeComments(String name, String email, String comment, Double sentiment, long timestamp) {
+  private static void storeComments(String name, String email, String comment, Optional<Double> sentiment, long timestamp) {
     Entity taskEntity = new Entity(ENTITY_KIND);
     taskEntity.setProperty(ENTITY_NAME_HEADER, name);
     taskEntity.setProperty(ENTITY_EMAIL_HEADER, email);
     taskEntity.setProperty(ENTITY_COMMENT_HEADER, comment);
-    taskEntity.setProperty(ENTITY_SENTIMENT_HEADER, sentiment);
+    if (sentiment.isPresent()) {
+      taskEntity.setProperty(ENTITY_SENTIMENT_HEADER, sentiment.get());
+    }
     taskEntity.setProperty(ENTITY_TIMESTAMP_HEADER, timestamp);
     datastore.put(taskEntity);
   }
