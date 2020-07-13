@@ -74,10 +74,10 @@ public class DataServlet extends HttpServlet {
     String email = userService.getCurrentUser().getEmail();
     String comment = getParameter(request, ENTITY_COMMENT_HEADER, /* DefaultValue= */ "");
     long timestamp = System.currentTimeMillis();
-    Optional<Double> sentiment = getSentiment(comment);
+    Optional<Double> sentimentOptional = getSentiment(comment);
 
     // Respond with a refresh and do local and persistent storage updates.
-    storeComments(name, email, comment, sentiment, timestamp);
+    storeComments(name, email, comment, sentimentOptional, timestamp);
     response.sendRedirect("/index.html");
   }
   
@@ -124,14 +124,12 @@ public class DataServlet extends HttpServlet {
     }
   }
 
-  private static void storeComments(String name, String email, String comment, Optional<Double> sentiment, long timestamp) {
+  private static void storeComments(String name, String email, String comment, Optional<Double> sentimentOptional, long timestamp) {
     Entity taskEntity = new Entity(ENTITY_KIND);
     taskEntity.setProperty(ENTITY_NAME_HEADER, name);
     taskEntity.setProperty(ENTITY_EMAIL_HEADER, email);
     taskEntity.setProperty(ENTITY_COMMENT_HEADER, comment);
-    if (sentiment.isPresent()) {
-      taskEntity.setProperty(ENTITY_SENTIMENT_HEADER, sentiment.get());
-    }
+    sentimentOptional.ifPresent(sentiment -> taskEntity.setProperty(ENTITY_SENTIMENT_HEADER, sentiment))
     taskEntity.setProperty(ENTITY_TIMESTAMP_HEADER, timestamp);
     datastore.put(taskEntity);
   }
