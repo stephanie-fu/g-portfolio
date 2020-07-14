@@ -37,12 +37,13 @@ public final class FindMeetingQuery {
     for (Event event : pertinentEvents) {
       TimeRange eventTimeRange = event.getWhen();
       if (eventTimeRange.start() - previousEnd >= request.getDuration()) {
-        openSlots.add(TimeRange.fromStartEnd(previousEnd, eventTimeRange.start(), false));
+        openSlots.add(TimeRange.fromStartEnd(previousEnd, eventTimeRange.start(), /* inclusive = */ false));
       }
       previousEnd = eventTimeRange.end();
     }
-    if ((previousEnd < TimeRange.END_OF_DAY) && (TimeRange.END_OF_DAY - previousEnd >= request.getDuration())) {
-      openSlots.add(TimeRange.fromStartEnd(previousEnd, TimeRange.END_OF_DAY, true));
+    // Process a potential time slot at the end of the day
+    if (TimeRange.END_OF_DAY - previousEnd >= request.getDuration()) {
+      openSlots.add(TimeRange.fromStartEnd(previousEnd, TimeRange.END_OF_DAY, /* inclusive = */ true));
     }
     return openSlots;
   }
@@ -73,6 +74,7 @@ public final class FindMeetingQuery {
     return nonOverlappedEvents;
   }
 
+  /** Runs all event-filtering methods */
   private static List<Event> filterEvents(List<Event> events, Collection<String> attendees) {
     return filterEventsByAttendees(filterEventsByContain(events), attendees);
   }
