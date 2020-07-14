@@ -18,19 +18,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     // Base cases
-    if (request.getAttendees().isEmpty()) { return new ArrayList<>(Arrays.asList(TimeRange.WHOLE_DAY)); }
+    if (request.getAttendees().isEmpty()) { return Arrays.asList(TimeRange.WHOLE_DAY); }
     if (request.getDuration() >= TimeRange.WHOLE_DAY.duration()) { return new ArrayList<>(); }
     
     // Preprocess event input
-    List<Event> pertinentEvents = new ArrayList<>(filterEvents(new ArrayList<>(events), request.getAttendees()));
-    Collections.sort(pertinentEvents, (Event e1, Event e2) -> TimeRange.ORDER_BY_END.compare(e1.getWhen(), e2.getWhen()));
-    
+    List<Event> pertinentEvents = events.stream()
+                                        .filter(event -> eventContainsAttendees(event, new HashSet<>(request.getAttendees())) && 
+                                                         eventCleared(new ArrayList<>(events), event))
+                                        .sorted((e1, e2) -> TimeRange.ORDER_BY_END.compare(e1.getWhen(), e2.getWhen()))
+                                        .collect(Collectors.toList());
+
     List<TimeRange> openSlots = new ArrayList<>();
     int previousEnd = 0;
 
@@ -48,32 +53,18 @@ public final class FindMeetingQuery {
     return openSlots;
   }
 
-  private static List<Event> filterEventsByAttendees(List<Event> events, Collection<String> attendees) {
-    List<Event> eventsWithAppropriateAttendees = new ArrayList<>();
-    for (Event event : events) {
-      Collection<String> eventAttendees = new HashSet<>(event.getAttendees());
-      eventAttendees.retainAll(attendees);
-      // Check size of intersection calculated above
-      if (eventAttendees.size() > 0) { eventsWithAppropriateAttendees.add(event); }
-    }
-    return eventsWithAppropriateAttendees;
+  private static boolean eventContainsAttendees(Event event, Set<String> attendees) {
+    Set<String> eventAttendees = new HashSet<>(event.getAttendees());
+    eventAttendees.retainAll(attendees);
+    return eventAttendees.size() > 0;
   }
 
-  private static List<Event> filterEventsByContain(List<Event> events) {
-    List<Event> nonOverlappedEvents = new ArrayList<>();
+  private static boolean eventCleared(List<Event> events, Event event) {
+    boolean eventCleared = true;
     for (Event event1 : events) {
-      boolean eventContainsAnother = false;
-      for (Event event2 : events) {
-        // Invalidates event1 if it is contained by event2
-        if (event1 != event2) { eventContainsAnother = event2.getWhen().contains(event1.getWhen()); }
-      }
-      if (!eventContainsAnother) { nonOverlappedEvents.add(event1); }
+      // Invalidates event if it is contained by event1
+      if (event != event1) { eventCleared = !event1.getWhen().contains(event.getWhen()); }
     }
-    return nonOverlappedEvents;
-  }
-
-  /** Runs all event-filtering methods */
-  private static List<Event> filterEvents(List<Event> events, Collection<String> attendees) {
-    return filterEventsByAttendees(filterEventsByContain(events), attendees);
+    return eventCleared;
   }
 }
