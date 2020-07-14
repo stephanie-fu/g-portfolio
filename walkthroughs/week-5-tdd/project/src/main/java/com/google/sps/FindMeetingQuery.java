@@ -50,9 +50,8 @@ public final class FindMeetingQuery {
 
   private static List<Event> filterEventsByAttendees(List<Event> events, Collection<String> attendees) {
     List<Event> eventsWithAppropriateAttendees = new ArrayList<>();
-    Collection<String> eventAttendees;
     for (Event event : events) {
-      eventAttendees = new HashSet<>(event.getAttendees());
+      Collection<String> eventAttendees = new HashSet<>(event.getAttendees());
       eventAttendees.retainAll(attendees);
       // Check size of intersection calculated above
       if (eventAttendees.size() > 0) { eventsWithAppropriateAttendees.add(event); }
@@ -62,9 +61,8 @@ public final class FindMeetingQuery {
 
   private static List<Event> filterEventsByContain(List<Event> events) {
     List<Event> nonOverlappedEvents = new ArrayList<>();
-    boolean eventContainsAnother;
     for (Event event1 : events) {
-      eventContainsAnother = false;
+      boolean eventContainsAnother = false;
       for (Event event2 : events) {
         // Invalidates event1 if it is contained by event2
         if (event1 != event2) { eventContainsAnother = event2.getWhen().contains(event1.getWhen()); }
