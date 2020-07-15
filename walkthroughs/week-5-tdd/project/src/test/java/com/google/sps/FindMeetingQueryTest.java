@@ -274,7 +274,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void optionalWholeDay() {
+  public void mandatoryGapsOptionalWholeDayWithOpenings() {
     // Have each mandatory person have different events, as well as one optional attendee with 
     // an all-day event.
     //
@@ -305,7 +305,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void withOptionalEvent() {
+  public void mandatoryGapsOptionalGapsWithOpenings() {
     // Have each mandatory person have different events, as well as one optional attendee with 
     // an event that conflicts with an open slot.
     // This optional attendee's event should block the middle of the day, and only produce
@@ -337,7 +337,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void optionalIgnored() {
+  public void mandatoryGapsOptionalIgnoredWithOpenings() {
     // Have one person, but make it so that there is just enough room at one point in the day to
     // have the meeting. The optional attendee should be ignored because their schedule blocks 
     // out the only available time.
@@ -345,7 +345,7 @@ public final class FindMeetingQueryTest {
     // Events  : |--A--|     |----A----|
     // Optional:       |B|
     // Day     : |---------------------|
-    // Options :
+    // Options :       |--1--|
 
     Collection<Event> events = Arrays.asList(
         new Event("Event 1", TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0830AM, false),
@@ -365,7 +365,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void optionalOnly() {
+  public void optionalGapsWithOpenings() {
     // Have no mandatory employees, but have several optional employees that can be accommodated.
     //
     // Optional: |--A--|     |--B--|
@@ -391,7 +391,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void optionalOnlyNoGaps() {
+  public void optionalNoGapsNoOpenings() {
     // Have no mandatory employees, but have several optional employees with no mutual 
     // availabilities. No schedulable time should be found.
     //
