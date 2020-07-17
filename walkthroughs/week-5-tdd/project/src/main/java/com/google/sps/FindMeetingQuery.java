@@ -26,8 +26,13 @@ import java.util.Set;
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     // Base cases
-    if (request.getAttendees().isEmpty()) { return Arrays.asList(TimeRange.WHOLE_DAY); }
-    if (request.getDuration() >= TimeRange.WHOLE_DAY.duration()) { return new ArrayList<>(); }
+    if (request.getAttendees().isEmpty()) { 
+      return Arrays.asList(TimeRange.WHOLE_DAY); 
+    }
+
+    if (request.getDuration() >= TimeRange.WHOLE_DAY.duration()) { 
+      return new ArrayList<>();
+    }
     
     // Preprocess event input
     List<Event> pertinentEvents = events.stream()
@@ -63,7 +68,9 @@ public final class FindMeetingQuery {
     boolean eventCleared = true;
     for (Event event1 : events) {
       // Invalidates event if it is contained by event1
-      if (event != event1) { eventCleared = !event1.getWhen().contains(event.getWhen()); }
+      if (event != event1) { 
+        eventCleared = !event1.getWhen().contains(event.getWhen()); 
+      }
     }
     return eventCleared;
   }
