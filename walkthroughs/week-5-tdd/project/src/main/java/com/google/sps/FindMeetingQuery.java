@@ -35,11 +35,14 @@ public final class FindMeetingQuery {
     }
     
     // Preprocess event input
-    List<Event> pertinentEvents = events.stream()
-                                        .filter(event -> eventContainsAttendees(event, new HashSet<>(request.getAttendees())) && 
-                                                         eventCleared(new ArrayList<>(events), event))
-                                        .sorted((e1, e2) -> TimeRange.ORDER_BY_END.compare(e1.getWhen(), e2.getWhen()))
-                                        .collect(Collectors.toList());
+    List<Event> pertinentEvents =
+    events.stream()
+        .filter(
+            event ->
+                eventContainsAttendees(event, new HashSet<>(request.getAttendees()))
+                    && eventCleared(new ArrayList<>(events), event))
+        .sorted((e1, e2) -> TimeRange.ORDER_BY_END.compare(e1.getWhen(), e2.getWhen()))
+        .collect(Collectors.toList());
 
     List<TimeRange> openSlots = new ArrayList<>();
     int previousEnd = 0;
